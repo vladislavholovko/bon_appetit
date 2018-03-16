@@ -1,0 +1,53 @@
+/*=================================*/
+.loginBody {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+/*-------*/
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(53, 53, 53, .5);
+    border: 2px solid rgba(53, 53, 53, .8);
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+
+}
+/*-------*/
+.loginHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Pacifico', cursive;
+}
+
+.loginHeader img {
+    width: 30px;
+    height: 30px;
+    padding: 0 10px 0 10px;
+}
+/*-------*/
+.loginForm {
+    display: flex;
+    flex-direction: column;
+}
+/*-------*/
+.loginInfo {
+    font-family: 'Neucha', cursive;
+}
+
+.loginInfo a{
+    color: rgb(145,145,145);
+}
+
+.loginInfo a:hover  {
+    color: rgb(214, 214, 214);
+    cursor: pointer;
+}
+
+/*=================================*/

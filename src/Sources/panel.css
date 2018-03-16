@@ -1,0 +1,134 @@
+/*=================================*/
+.panelBody {
+    display: flex;
+    margin: 50px auto;
+    width: 1100px;
+    min-height: 500px;
+    background: rgba(53, 53, 53, .5);
+    border: 2px solid rgba(53, 53, 53, .8);
+    border-radius: 10px;
+}
+
+.panelContainer {
+    display: flex;
+    /*flex: 1;*/
+    flex-direction: column;
+}
+
+/*=================================*/
+.sidebarPanel {
+    background: rgba(38, 38, 38, .6);
+    width: 250px;
+    border-radius: 5px;
+}
+
+/*-------*/
+.sidebarLogo {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(38, 38, 38, .6);
+    font-family: 'Pacifico', cursive;
+    font-size: 25px;
+    border-radius: 5px;
+}
+
+/*-------*/
+.listPanel {
+    padding: 0;
+}
+
+.listPanel li {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    cursor: pointer;
+    font-family: 'Neucha', cursive;
+    font-size: 20px;
+    color: silver;
+}
+
+.link {
+    border-left: 3px solid rgba(38, 38, 38, .0);
+    width: 100%;
+    padding: 10px 0 10px 30px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.link:hover {
+    color: cyan;
+    border-left: 3px solid cyan;
+}
+
+.active {
+    color: cyan;
+    border-left: 3px solid cyan;
+}
+
+.listPanel li i {
+    padding: 0 10px 0 0;
+}
+
+/*=================================*/
+
+.headerBody {
+    display: flex;
+    justify-content: flex-end;
+    background: rgba(38, 38, 38, .6);
+    width: 850px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+/*-------*/
+.headerList {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    font-family: 'Neucha', cursive;
+    font-size: 20px;
+    color: silver;
+}
+
+.headerList li {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    height: 100%;
+    cursor: pointer;
+}
+
+.headerList li:hover {
+    color: cyan;
+    background: rgba(30, 30, 30, .6);
+}
+
+.headerList li h2 {
+    margin: 0 10px;
+}
+
+/*-------*/
+
+.dialogText{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogTitle{
+    background: rgb(239, 237, 237);
+}
+
+.dialogBody{
+    background: rgb(239, 237, 237);
+}

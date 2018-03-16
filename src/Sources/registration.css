@@ -1,0 +1,46 @@
+/*=================================*/
+.registrationContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 50px auto;
+    background: rgba(53, 53, 53, .5);
+    border: 2px solid rgba(53, 53, 53, .8);
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+
+}
+/*-------*/
+.registrationHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Pacifico', cursive;
+}
+
+.registrationHeader img {
+    width: 30px;
+    height: 30px;
+    padding: 0 10px 0 10px;
+}
+/*-------*/
+.registrationForm {
+    display: flex;
+    flex-direction: column;
+}
+/*-------*/
+.registrationInfo {
+    font-family: 'Neucha', cursive;
+}
+
+.registrationInfo a{
+    color: rgb(145,145,145);
+}
+
+.registrationInfo a:hover  {
+    color: rgb(214, 214, 214);
+    cursor: pointer;
+}
+
+/*=================================*/
