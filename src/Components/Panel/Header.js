@@ -31,8 +31,9 @@ class Header extends React.Component {
     }
     //-----------------------------
     handleOpen = () => {
-        this.setState({...this.props.store.data_company, open: true});
-
+        let info = this.props.store.data_company;
+        info.ownerPassword = "";
+        this.setState({...info, open: true});
     };
 
     handleClose = () => {
@@ -47,7 +48,7 @@ class Header extends React.Component {
             if (this.state.ownerPassword.length < 6) throw new Error('Password must be at least 6 characters');
             if (isNaN(this.state.orderValue)) throw new Error('Report value is invalid. Must be a number');
             //------------
-            let company = {...this.state}
+            let company = {...this.state};
             Info.changeCompany(company);
             this.setState({open: false});
         }
@@ -168,7 +169,6 @@ class Header extends React.Component {
                         <i className="material-icons" onClick={this.logout}>exit_to_app</i>
                     </li>
                 </ul>
-
             </div>
 
         )

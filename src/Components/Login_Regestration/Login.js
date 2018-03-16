@@ -7,6 +7,8 @@ import FlatButton from 'material-ui/FlatButton';
 import * as styles from './style';
 import {ToastContainer, toast} from 'react-toastify';
 //-----------------
+import * as AutReg from '../../Actions/AutRes';
+
 class Login extends React.Component {
     constructor() {
         super();
@@ -24,18 +26,7 @@ class Login extends React.Component {
     };
 
     signIn() {
-        fetch("http://web.bidon-tech.com:65059/company/login",
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                method: "POST",
-                body: JSON.stringify({
-                    ownerEmail: this.state.ownerEmail,
-                    ownerPassword: this.state.ownerPassword,
-                })
-            })
+        AutReg.autorization(this.state.ownerEmail, this.state.ownerPassword)
             .then((response) => response.json())
             .then((res) => {
                 if (res.error) {

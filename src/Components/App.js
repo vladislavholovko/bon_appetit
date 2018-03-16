@@ -15,7 +15,7 @@ import Login from './Login_Regestration/Login';
 import Registration from "./Login_Regestration/Registration";
 import Panel from "./Panel/Panel";
 //--------------------
-import Info from  '../Reducers/Company';
+import Info from '../Reducers/ReducerCompany';
 export const store = createStore(Info, applyMiddleware(logger));
 //--------------------
 
