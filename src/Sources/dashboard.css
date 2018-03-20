@@ -1,15 +1,109 @@
-.dashboardBody{
+.dashboardBody {
 
 }
 
-.dashboardHead{
+.dashboardHead {
+    margin: 10px 10px;
+    background: rgba(54, 54, 54, .3);
+    border-radius: 15px;
+}
+
+.dashboardHead h2 {
+    font-family: 'Neucha', cursive;
+    padding-left: 10px;
+}
+
+/*============================================*/
+.dashboardCenter {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 10px;
+}
+
+/*-----------------*/
+.dashboardLiner {
+    width: 410px;
+    background: rgba(54, 54, 54, .3);
+    border-radius: 15px;
+    font-family: 'Neucha', cursive;
+}
+
+.dashboardChild {
+    margin: 0 10px;
+}
+
+.spaceInfo {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
 
 }
 
-.dashboardCenter{
-
+.useInfo {
+    display: flex;
+    justify-content: center;
 }
 
-.dashboardBottom{
-
+/*-----------------*/
+.dashboardInfo {
+    width: 410px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Neucha', cursive;
 }
+
+.UserAndReport {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    background: rgba(54, 54, 54, .3);
+    border-radius: 15px;
+}
+
+.Child {
+    margin: 0 10px;
+}
+
+.UserAndReportInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.UserAndReportInfo p {
+    font-size: 40px;
+    margin: 0;
+}
+
+.Link {
+    color: rgb(145, 145, 145);
+}
+
+/*============================================*/
+.dashboardBottom {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 10px;
+}
+
+/*-----------------*/
+.dashboardBottomReport {
+    width: 410px;
+    background: rgba(54, 54, 54, .3);
+    border-radius: 15px;
+    font-family: 'Neucha', cursive;
+}
+
+/*-----------------*/
+.dashboardBottomDisk {
+    width: 410px;
+    background: rgba(54, 54, 54, .3);
+    border-radius: 15px;
+    font-family: 'Neucha', cursive;
+}
+
+.dashboardBottomDisk p{
+    text-align: center;
+}
+
+/*============================================*/
