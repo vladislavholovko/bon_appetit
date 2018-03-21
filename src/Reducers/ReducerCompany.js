@@ -1,11 +1,42 @@
 export const actionType = {
     DATA_COMPANY: "DATA_COMPANY",
-    DASHBOARD_INFO: "DASHBOARD_INFO"
+    DASHBOARD_INFO: "DASHBOARD_INFO",
+    USER_INFO: "USER_INFO"
 };
 
 const defaultState = {
-    data_company: {},
-    dashboard_info: {}
+    data_company: {
+        active: "",
+        createdAt: "",
+        description: "",
+        imageQuality: "",
+        language: "",
+        logo: "",
+        name: "",
+        orderValue: "",
+        ownerEmail: "",
+        ownerPassword: "",
+        totalSpace: 0,
+        useSpace: 0,
+        _id: ""
+    },
+    dashboard_info: {
+        lastFiveReports:[],
+        lastTwoWeeksReports:[],
+        reportCount: 0,
+        userCount: 0
+    },
+    user_info: [
+        {
+            active: "",
+            company_id: "",
+            createdAt: "",
+            email: "",
+            fullName: "Ivan",
+            password: "",
+            _id: ""
+        },
+    ]
 };
 
 export default function Info(state = defaultState, action) {
@@ -15,6 +46,9 @@ export default function Info(state = defaultState, action) {
             break;
         case "DASHBOARD_INFO":
             return {...state, dashboard_info: action.payload};
+            break;
+        case "USER_INFO":
+            return {...state, user_info: action.payload};
             break;
         default:
             return state;

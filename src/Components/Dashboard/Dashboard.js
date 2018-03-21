@@ -5,6 +5,8 @@ import {Link} from 'react-router-dom';
 //------------
 import {AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid} from 'recharts';
 import LinearProgress from 'material-ui/LinearProgress';
+import {List, ListItem} from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
 //------------
 import * as Info from '../../Actions/DashboardAction';
 //------------
@@ -22,17 +24,41 @@ const data = [
 class Dashboard extends React.Component {
     componentDidMount() {
         Info.DashboardInfo();
+        Info.UserInfo();
+    }
+
+    userName(user_id) {
+        let user = this.props.users.find(value => {
+            return value._id === user_id
+        });
+        if (user === undefined) {
+            return null;
+        } else {
+            return user.fullName;
+        }
     }
 
     render() {
-        let useSpace = this.props.store.data_company.useSpace !== undefined ? this.props.store.data_company.useSpace : 0;
-        let totalSpace = this.props.store.data_company.totalSpace;
+        let listReport = this.props.dashboard.lastFiveReports.map((value, index) => {
+            return (
+                <ListItem
+                    key={index}
+                    primaryText={this.userName(value.user_id) + " at "}
+                    rightIcon={<i className="material-icons">inbox</i>}
+                    leftAvatar={<Avatar src={`http://web.bidon-tech.com:65059/images/${value.image}`}/>}
+                />
+            )
+        });
+        // let useSpace = this.props.store.data_company.useSpace !== undefined ? this.props.store.data_company.useSpace : 0;
+        let useSpace = this.props.company.useSpace;
+        let totalSpace = this.props.company.totalSpace;
         let percent = useSpace === 0 ? 0 : useSpace * 100 / totalSpace;
+
         return (
             <div className="dashboardBody">
                 {/*DIAGRAM*/}
                 <div className="dashboardHead">
-                    <h2>Overview</h2>
+                    <h3>Overview</h3>
                     <AreaChart width={800} height={200} data={data}>
                         <defs>
                             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -55,7 +81,7 @@ class Dashboard extends React.Component {
                 <div className="dashboardCenter">
                     <div className="dashboardLiner">
                         <div className="dashboardChild">
-                            <h2>Disk space</h2>
+                            <h3>Disk space</h3>
                             <LinearProgress mode="determinate" value={percent}/>
                             <div className="spaceInfo">
                                 <p>{useSpace.toFixed(1)}Mb</p>
@@ -70,18 +96,18 @@ class Dashboard extends React.Component {
                     <div className="dashboardInfo">
                         <div className="UserAndReport">
                             <div className="Child">
-                                <h2>Users</h2>
+                                <h3>Users</h3>
                                 <div className="UserAndReportInfo">
-                                    <p>{this.props.store.dashboard_info.userCount}</p>
+                                    <p>{this.props.dashboard.userCount}</p>
                                     <Link className="Link" to="/panel/users">Go to users list</Link>
                                 </div>
                             </div>
                         </div>
                         <div className="UserAndReport">
                             <div className="Child">
-                                <h2>Reports</h2>
+                                <h3>Reports</h3>
                                 <div className="UserAndReportInfo">
-                                    <p>{this.props.store.dashboard_info.reportCount}</p>
+                                    <p>{this.props.dashboard.reportCount}</p>
                                     <Link className="Link" to="/panel/report">Go to reports lists</Link>
                                 </div>
                             </div>
@@ -90,28 +116,34 @@ class Dashboard extends React.Component {
                 </div>
                 {/*BOTTOM*/}
                 <div className="dashboardBottom">
-                    <div className="dashboardBottomReport" >
+                    <div className="dashboardBottomReport">
                         <div className="Child">
-                            <h2>Last 5 reports</h2>
-
+                            <h3>Last 5 reports</h3>
+                            <List>
+                                {this.props.dashboard.reportCount !== 0 ? listReport : (
+                                    <div className="EmptyList">
+                                        <p>Reports list is empty</p>
+                                    </div>
+                                )}
+                            </List>
                         </div>
                     </div>
                     <div className="dashboardBottomDisk">
                         <div className="Child">
-                            <h2>Upgrade your disk space</h2>
+                            <h3>Upgrade your disk space</h3>
                             <div className="Text">
-                            <p>
-                                <i className="material-icons">info </i> &ensp; Get <strong> 10Gb &ensp;</strong> disk space for only&ensp; <strong> $1.99 </strong><br/>
-                                Use &ensp; <a href=""> this form</a>&ensp;  to contact us
-                            </p>
+                                <p>
+                                    <i className="material-icons">info </i> &ensp; Get <strong> 10Gb &ensp;</strong> disk
+                                    space for only&ensp; <strong> $1.99 </strong><br/>
+                                    Use &ensp; <a href=""> this form</a>&ensp;  to contact us
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button onClick={() => console.log(this.props.store)}>11</button>
             </div>
         )
     }
 }
 
-export default connect(store => ({store: store}))(withRouter(Dashboard))
+export default connect(store => ({company: store.data_company,dashboard: store.dashboard_info,users: store.user_info}))(withRouter(Dashboard))

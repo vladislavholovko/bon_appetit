@@ -1,6 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 //-------------
 import {ToastContainer, toast} from 'react-toastify';
 import TextField from 'material-ui/TextField';
@@ -36,7 +37,6 @@ class Registration extends React.Component {
             if (!emailRegex.test(this.state.ownerEmail)) throw new Error('Email is invalid');
             if (this.state.ownerPassword.length < 6) throw new Error('Password must be at least 6 characters');
             if (isNaN(this.state.orderValue)) throw new Error('Report value is invalid. Must be a number');
-
             AutReg.registration(this.state)
                 .then((response) => response.json())
                 .then((res) => {
@@ -126,6 +126,9 @@ class Registration extends React.Component {
                         labelStyle={styles.floatingLabelStyle}
                         onClick={this.singUp}/>
                     <ToastContainer/>
+                    <div className="linkSingIN loginInfo">
+                        <Link className="Link" to="/">Sign In</Link>
+                    </div>
                 </div>
             </div>
         )

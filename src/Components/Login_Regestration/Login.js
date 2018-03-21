@@ -1,6 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 //-----------------
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
@@ -74,7 +75,7 @@ class Login extends React.Component {
                         />
                     </div>
                     <p className="loginInfo">You don't have an account?
-                        <a onClick={() => this.props.history.push('/registration')}> Sign up </a>
+                        <Link className="Link" to="/registration">Sign Up</Link>
                         your company</p>
                     <ToastContainer/>
                 </div>

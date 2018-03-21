@@ -17,3 +17,19 @@ export async function  DashboardInfo() {
         payload: data.message
     })
 }
+
+export async function  UserInfo() {
+    let token = localStorage.getItem('token');
+    let response = await fetch(host+"user",
+        {
+            method: "GET",
+            headers: {
+                "Authorization": token
+            }
+        });
+    let data = await response.json();
+    store.dispatch({
+        type: actionType.USER_INFO,
+        payload: data.message
+    })
+}

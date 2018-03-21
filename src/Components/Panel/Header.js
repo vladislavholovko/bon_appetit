@@ -31,7 +31,7 @@ class Header extends React.Component {
     }
     //-----------------------------
     handleOpen = () => {
-        let info = this.props.store.data_company;
+        let info = this.props.company;
         info.ownerPassword = "";
         this.setState({...info, open: true});
     };
@@ -162,7 +162,7 @@ class Header extends React.Component {
                 {this.dialog()}
                 <ul className="headerList">
                     <li onClick={this.handleOpen}>
-                        <h2>{this.props.store.data_company.name}</h2>
+                        <h2>{this.props.company.name}</h2>
                         <i className="material-icons">settings</i>
                     </li>
                     <li>
@@ -175,4 +175,4 @@ class Header extends React.Component {
     }
 }
 
-export default connect(store => ({store: store}))(withRouter(Header))
+export default connect(store => ({company: store.data_company}))(withRouter(Header))

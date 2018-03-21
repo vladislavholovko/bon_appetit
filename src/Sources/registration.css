@@ -43,4 +43,9 @@
     cursor: pointer;
 }
 
+.linkSingIN {
+    display: flex;
+    justify-content: flex-end;
+}
+
 /*=================================*/
