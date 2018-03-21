@@ -2,3 +2,15 @@ body{
     background-image: url("background.jpg");
     background-attachment: fixed;
 }
+
+.Link {
+    color: rgb(145, 145, 145);
+    margin: 0 5px;
+    text-decoration: none;
+}
+
+
+.Link:hover {
+    color: rgb(214, 214, 214);
+    cursor: pointer;
+}

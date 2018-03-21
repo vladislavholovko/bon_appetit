@@ -126,7 +126,7 @@ class Registration extends React.Component {
                         labelStyle={styles.floatingLabelStyle}
                         onClick={this.singUp}/>
                     <ToastContainer/>
-                    <div className="linkSingIN loginInfo">
+                    <div className="linkSingIN">
                         <Link className="Link" to="/">Sign In</Link>
                     </div>
                 </div>

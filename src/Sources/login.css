@@ -41,13 +41,4 @@
     font-family: 'Neucha', cursive;
 }
 
-.loginInfo a{
-    color: rgb(145,145,145);
-}
-
-.loginInfo a:hover  {
-    color: rgb(214, 214, 214);
-    cursor: pointer;
-}
-
 /*=================================*/

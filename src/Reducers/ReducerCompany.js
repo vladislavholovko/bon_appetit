@@ -26,17 +26,7 @@ const defaultState = {
         reportCount: 0,
         userCount: 0
     },
-    user_info: [
-        {
-            active: "",
-            company_id: "",
-            createdAt: "",
-            email: "",
-            fullName: "Ivan",
-            password: "",
-            _id: ""
-        },
-    ]
+    user_info: []
 };
 
 export default function Info(state = defaultState, action) {
