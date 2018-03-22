@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+import dateFormat from 'dateformat'
 //------------
 import {AreaChart, Area, XAxis, YAxis, Tooltip} from 'recharts';
 import LinearProgress from 'material-ui/LinearProgress';
@@ -40,7 +41,7 @@ class Dashboard extends React.Component {
 
     render() {
         let listReport = this.props.dashboard.reportCount === 0 ? (
-            <div className="EmptyList">
+            <div className="emptyList">
                 <p>Reports list is empty</p>
             </div>
         ): (
@@ -48,7 +49,7 @@ class Dashboard extends React.Component {
                     return (
                         <ListItem
                             key={index}
-                            primaryText={this.userName(value.user_id) + " at "}
+                            primaryText={this.userName(value.user_id) + " at " + dateFormat(value.date, "yyyy-mm-dd HH:MM")}
                             rightIcon={<i className="material-icons">inbox</i>}
                             leftAvatar={<Avatar src={`http://web.bidon-tech.com:65059/images/${value.image}`}/>}
                         />
@@ -103,19 +104,19 @@ class Dashboard extends React.Component {
                         </div>
                     </div>
                     <div className="dashboardInfo">
-                        <div className="UserAndReport">
+                        <div className="userAndReport">
                             <div className="dashboardChild">
                                 <h3>Users</h3>
-                                <div className="UserAndReportInfo">
+                                <div className="userAndReportInfo">
                                     <p>{this.props.dashboard.userCount}</p>
                                     <Link className="Link" to="/panel/users">Go to users list</Link>
                                 </div>
                             </div>
                         </div>
-                        <div className="UserAndReport">
+                        <div className="userAndReport">
                             <div className="dashboardChild">
                                 <h3>Reports</h3>
-                                <div className="UserAndReportInfo">
+                                <div className="userAndReportInfo">
                                     <p>{this.props.dashboard.reportCount}</p>
                                     <Link className="Link" to="/panel/report">Go to reports lists</Link>
                                 </div>
@@ -134,14 +135,15 @@ class Dashboard extends React.Component {
                         </div>
                     </div>
                     <div className="dashboardBottom">
-                        <div className="dashboardChild">
+                        <div className="infoChild">
                             <h3>Upgrade your disk space</h3>
-                            <div className="TextInfo">
+                            <div className="textInfo">
+                                <i className="material-icons">info</i>
                                 <div className="useInfo">
-                                    <i className="material-icons">info</i> Get <strong> 10Gb </strong> disk space for only <strong> $1.99 </strong>
+                                    &nbsp; Get &nbsp;<strong> 10Gb </strong>&nbsp; disk space for only &nbsp;<strong> $1.99 </strong>
                                 </div>
                                 <div className="useInfo">
-                                    Use &ensp; <a href=""> this form</a>&ensp;  to contact us
+                                    Use &nbsp; <a href=""> this form</a>&nbsp;  to contact us
                                 </div>
                             </div>
                         </div>

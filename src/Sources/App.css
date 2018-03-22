@@ -14,3 +14,14 @@ body{
     color: rgb(214, 214, 214);
     cursor: pointer;
 }
+
+a {
+    color: rgb(145, 145, 145);
+    margin: 0 5px;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(214, 214, 214);
+    cursor: pointer;
+}
