@@ -1,25 +1,211 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
+import {ToastContainer, toast} from 'react-toastify';
 //------------
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+import {
+    Table,
+    TableBody,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn,
+} from 'material-ui/Table';
+import Dialog from 'material-ui/Dialog';
+import Toggle from 'material-ui/Toggle';
+import IconButton from 'material-ui/IconButton';
+//------------
+import * as UsAct from "../../Actions/UserActions";
+import * as styles from "../Login_Regestration/style";
+
+//------------
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const defaultValue = {
+    open: false,
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    active: true,
+}
+
 
 class Users extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            open: false,
+            fullName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            active: true,
+        };
+        this.newUsers = this.newUsers.bind(this);
+    }
 
+    componentDidMount() {
+        UsAct.UserInfo();
+    }
+
+//-----------------------------
+    handleOpen = () => {
+        this.setState({open: true});
+    };
+
+    handleClose = () => {
+        this.setState(defaultValue);
+    };
+
+    newUsers() {
+        try {
+            if (this.state.fullName.length < 3) throw new Error('Full name must be at least 3 characters');
+            if (!emailRegex.test(this.state.email)) throw new Error('Email is invalid');
+            if (this.state.password.length < 6) throw new Error('Password must be at least 6 characters');
+            if (this.state.password !== this.state.confirmPassword) throw new Error('Passwords is invalid');
+            //------------
+            UsAct.NewUsers(this.state.fullName, this.state.email, this.state.password);
+            this.setState(defaultValue);
+            toast.success('User has been created successfully');
+        }
+        catch (e) {
+            toast.error(e.message);
+        }
+    }
+
+//-----------------------------
+    dialog() {
+        return (
+            <Dialog
+                contentStyle={{width: "350px"}}
+                title="Add new user"
+                modal={false}
+                open={this.state.open}
+                onRequestClose={this.handleClose}
+                autoScrollBodyContent={true}>
+                <div className="dialogText">
+                    <TextField
+                        hintText="Enter user full name"
+                        floatingLabelText="Full name"
+                        floatingLabelStyle={styles.floatingLabelStyle}
+                        floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                        inputStyle={styles.floatingLabelStyle}
+                        value={this.state.fullName}
+                        onChange={(e) => this.setState({fullName: e.target.value})}/>
+                    <TextField
+                        hintText="Enter user email"
+                        floatingLabelText="E-mail"
+                        floatingLabelStyle={styles.floatingLabelStyle}
+                        floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                        inputStyle={styles.floatingLabelStyle}
+                        value={this.state.email}
+                        onChange={(e) => this.setState({email: e.target.value})}/>
+                    <TextField
+                        hintText="Enter user password"
+                        floatingLabelText="Password"
+                        type="password"
+                        floatingLabelStyle={styles.floatingLabelStyle}
+                        floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                        value={this.state.password}
+                        onChange={(e) => this.setState({password: e.target.value})}/>
+                    <TextField
+                        hintText="Enter user password confirm"
+                        floatingLabelText="Password confirm"
+                        type="password"
+                        floatingLabelStyle={styles.floatingLabelStyle}
+                        floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                        value={this.state.confirmPassword}
+                        onChange={(e) => this.setState({confirmPassword: e.target.value})}/>
+                </div>
+                <div className="dialogButton">
+                    <FlatButton
+                        label="CANCEL"
+                        primary={true}
+                        onClick={this.handleClose}
+                        labelStyle={styles.floatingLabelStyle}
+                    />
+                    <FlatButton
+                        label="SUBMIT"
+                        primary={true}
+                        keyboardFocused={true}
+                        onClick={this.newUsers}
+                        labelStyle={styles.floatingLabelStyle}
+                    />
+                </div>
+                <ToastContainer/>
+            </Dialog>
+        )
+    }
+
+//-----------------------------
+    Toggle() {
+
+    }
+
+    onChange() {
+
+    }
+
+//-----------------------------
     render() {
+        let list = this.props.users.map((value, index) => {
+            return (
+                <TableRow key={index}>
+                    <TableRowColumn>{value.fullName}</TableRowColumn>
+                    <TableRowColumn>{value.email}</TableRowColumn>
+                    <TableRowColumn>
+                        <Toggle
+                            toggled={value.active}
+                            onToggle={this.Toggle(value._id)}/>
+                    </TableRowColumn>
+                    <TableRowColumn style={{width: "45px"}}>
+                        <IconButton
+                            children={<i className=" material-icons">mode_edit</i>}
+                            onClick={this.onChange(value)}
+                        />
+                    </TableRowColumn>
+                </TableRow>
+            )
+        });
+
         return (
             <div className="usersBody">
-                <div className="userPanel">
-
-                </div>
-                <div className="userList">
-
-                </div>
-                <div className="userInfo">
-
-                </div>
+                    <div className="userPanel">
+                        {this.dialog()}
+                        <FlatButton label="+ ADD NEW USER" backgroundColor="cyan" style={{borderRadius: "5px"}}
+                                    onClick={this.handleOpen}/>
+                        <TextField
+                            hintText="Search"
+                            inputStyle={{color: "#000", fontFamily: 'Neucha',fontSize: "24px" }}/>
+                    </div>
+                    {/*-----*/}
+                    {this.props.users.length === 0 ? (
+                        <div className="userInfo"><b>Users list is empty</b></div>
+                    ) : (
+                        <div className="userList">
+                            <Table style={{backgroundColor: "rgba(54, 54, 54, .3)"}}>
+                                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                                    <TableRow>
+                                        <TableHeaderColumn>Full name</TableHeaderColumn>
+                                        <TableHeaderColumn>Email</TableHeaderColumn>
+                                        <TableHeaderColumn>Status</TableHeaderColumn>
+                                        <TableHeaderColumn style={{width: "45px"}}>Actions</TableHeaderColumn>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody displayRowCheckbox={false}>
+                                    {list}
+                                </TableBody>
+                            </Table>
+                            <p className="ListUsers">All {this.props.users.length} users are listed</p>
+                        </div>
+                    )
+                    }
+                    {/*-----*/}
             </div>
         )
     }
 }
 
-export default connect(store => ({store: store}))(withRouter(Users))
+export default connect(store => ({users: store.user_info}))(withRouter(Users))

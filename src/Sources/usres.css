@@ -1,0 +1,37 @@
+.usersBody {
+    /*height: 100%;*/
+}
+
+/*============================================*/
+.userPanel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 10px;
+    padding: 10px;
+    background: rgba(54, 54, 54, .3);
+    border-radius: 15px;
+}
+
+/*============================================*/
+.userList {
+    margin: 10px 10px;
+    padding: 10px;
+    background: rgba(54, 54, 54, .3);
+    border-radius: 15px;
+    width: 810px;
+}
+
+.ListUsers {
+    text-align: center;
+    font-family: 'Neucha', cursive;
+    font-size: 20px;
+}
+
+/*============================================*/
+.userInfo {
+    text-align: center;
+    font-family: 'Neucha', cursive;
+    font-size: 20px;
+
+}

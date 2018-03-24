@@ -9,7 +9,7 @@ import FlatButton from 'material-ui/FlatButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 //------------
-import * as Info from '../../Actions/actionInfo'
+import * as Info from '../../Actions/CompanyActions'
 //------------
 import * as styles from "../Login_Regestration/style";
 
@@ -165,8 +165,8 @@ class Header extends React.Component {
                         <h2>{this.props.company.name}</h2>
                         <i className="material-icons">settings</i>
                     </li>
-                    <li>
-                        <i className="material-icons" onClick={this.logout}>exit_to_app</i>
+                    <li onClick={this.logout}>
+                        <i className="material-icons">exit_to_app</i>
                     </li>
                 </ul>
             </div>

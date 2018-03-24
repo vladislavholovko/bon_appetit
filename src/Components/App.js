@@ -10,6 +10,7 @@ import '../Sources/login.css'
 import '../Sources/registration.css'
 import '../Sources/panel.css'
 import '../Sources/dashboard.css'
+import '../Sources/usres.css'
 //--------------------
 import Login from './Login_Regestration/Login';
 import Registration from "./Login_Regestration/Registration";

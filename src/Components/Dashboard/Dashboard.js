@@ -9,7 +9,8 @@ import LinearProgress from 'material-ui/LinearProgress';
 import {List, ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 //------------
-import * as Info from '../../Actions/DashboardAction';
+import * as DashAct from '../../Actions/DashboardAction';
+import * as UsAct from '../../Actions/UserActions';
 //------------
 
 const data = [
@@ -24,8 +25,8 @@ const data = [
 
 class Dashboard extends React.Component {
     componentDidMount() {
-        Info.DashboardInfo();
-        Info.UserInfo();
+        DashAct.DashboardInfo();
+        UsAct.UserInfo();
     }
 
     userName(user_id) {
