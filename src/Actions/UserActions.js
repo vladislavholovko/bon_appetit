@@ -42,3 +42,29 @@ export async function NewUsers(fullName, email, password) {
         UserInfo();
     }
 }
+
+export async function EditUsers(_id,fullName,email,password,active){
+    let token = localStorage.getItem('token');
+    let response = await fetch(host + "user",
+        {
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": token
+            },
+            body: JSON.stringify({
+                _id:_id,
+                fullName: fullName,
+                email: email,
+                password: password,
+                active: active
+            })
+        });
+    let data = await response.json();
+    if (data.error) {
+        console.log(data.message.toString());
+    } else {
+        UserInfo();
+    }
+}

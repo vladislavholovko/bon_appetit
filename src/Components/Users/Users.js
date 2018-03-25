@@ -22,28 +22,21 @@ import * as styles from "../Login_Regestration/style";
 
 //------------
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const defaultValue = {
-    open: false,
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    active: true,
-}
-
+const defaultValue = {open: false, edit: false, search:"", fullName: '', email: '', password: '', confirmPassword: ''};
 
 class Users extends React.Component {
     constructor() {
         super();
         this.state = {
             open: false,
+            edit: false,
+            search:"",
             fullName: '',
             email: '',
             password: '',
             confirmPassword: '',
-            active: true,
         };
-        this.newUsers = this.newUsers.bind(this);
+        this.companyUsers = this.companyUsers.bind(this);
     }
 
     componentDidMount() {
@@ -55,32 +48,48 @@ class Users extends React.Component {
         this.setState({open: true});
     };
 
+    editOpen = (value) => {
+        value.password = "";
+        value.confirmPassword = "";
+        this.setState({...value, edit: true, open: true});
+    };
+
     handleClose = () => {
         this.setState(defaultValue);
     };
 
-    newUsers() {
+//-----------------------------
+    companyUsers() {
         try {
             if (this.state.fullName.length < 3) throw new Error('Full name must be at least 3 characters');
             if (!emailRegex.test(this.state.email)) throw new Error('Email is invalid');
             if (this.state.password.length < 6) throw new Error('Password must be at least 6 characters');
             if (this.state.password !== this.state.confirmPassword) throw new Error('Passwords is invalid');
             //------------
-            UsAct.NewUsers(this.state.fullName, this.state.email, this.state.password);
-            this.setState(defaultValue);
+            this.state.edit ?
+                UsAct.EditUsers(this.state._id, this.state.fullName, this.state.email, this.state.password, this.state.active) :
+                UsAct.NewUsers(this.state.fullName, this.state.email, this.state.password);
             toast.success('User has been created successfully');
+            this.setState(defaultValue);
         }
         catch (e) {
             toast.error(e.message);
         }
     }
 
+    usersToggle(value) {
+        value.active = !value.active;
+        UsAct.EditUsers(value._id, value.fullName, value.email, value.password, value.active);
+        toast.success('User has been updated successfully');
+    }
+
+
 //-----------------------------
     dialog() {
         return (
             <Dialog
                 contentStyle={{width: "350px"}}
-                title="Add new user"
+                title={this.state.edit ? "Edit user" : "Add new user"}
                 modal={false}
                 open={this.state.open}
                 onRequestClose={this.handleClose}
@@ -130,22 +139,12 @@ class Users extends React.Component {
                         label="SUBMIT"
                         primary={true}
                         keyboardFocused={true}
-                        onClick={this.newUsers}
+                        onClick={this.companyUsers}
                         labelStyle={styles.floatingLabelStyle}
                     />
                 </div>
-                <ToastContainer/>
             </Dialog>
         )
-    }
-
-//-----------------------------
-    Toggle() {
-
-    }
-
-    onChange() {
-
     }
 
 //-----------------------------
@@ -158,51 +157,54 @@ class Users extends React.Component {
                     <TableRowColumn>
                         <Toggle
                             toggled={value.active}
-                            onToggle={this.Toggle(value._id)}/>
+                            onToggle={() => this.usersToggle(value)}/>
                     </TableRowColumn>
                     <TableRowColumn style={{width: "45px"}}>
                         <IconButton
                             children={<i className=" material-icons">mode_edit</i>}
-                            onClick={this.onChange(value)}
+                            onClick={() => this.editOpen(value)}
                         />
                     </TableRowColumn>
                 </TableRow>
             )
         });
-
+        //---------------
         return (
             <div className="usersBody">
-                    <div className="userPanel">
-                        {this.dialog()}
-                        <FlatButton label="+ ADD NEW USER" backgroundColor="cyan" style={{borderRadius: "5px"}}
-                                    onClick={this.handleOpen}/>
-                        <TextField
-                            hintText="Search"
-                            inputStyle={{color: "#000", fontFamily: 'Neucha',fontSize: "24px" }}/>
+                <div className="userPanel">
+                    {this.dialog()}
+                    <FlatButton label="+ ADD NEW USER" backgroundColor="cyan" style={{borderRadius: "5px"}}
+                                onClick={this.handleOpen}/>
+                    <TextField
+                        hintText="Search"
+                        value={this.state.search}
+                        onChange={(e) => this.setState({search: e.target.value})}
+                        inputStyle={{color: "#000", fontFamily: 'Neucha', fontSize: "24px"}}/>
+                </div>
+                {/*-----*/}
+                {this.props.users.length === 0 ? (
+                    <div className="userInfo"><b>Users list is empty</b></div>
+                ) : (
+                    <div className="userList">
+                        <Table style={{backgroundColor: "rgba(54, 54, 54, .3)"}}>
+                            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                                <TableRow>
+                                    <TableHeaderColumn>Full name</TableHeaderColumn>
+                                    <TableHeaderColumn>Email</TableHeaderColumn>
+                                    <TableHeaderColumn>Status</TableHeaderColumn>
+                                    <TableHeaderColumn style={{width: "45px"}}>Actions</TableHeaderColumn>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody displayRowCheckbox={false}>
+                                {list}
+                            </TableBody>
+                        </Table>
+                        <p className="ListUsers">All {this.props.users.length} users are listed</p>
                     </div>
-                    {/*-----*/}
-                    {this.props.users.length === 0 ? (
-                        <div className="userInfo"><b>Users list is empty</b></div>
-                    ) : (
-                        <div className="userList">
-                            <Table style={{backgroundColor: "rgba(54, 54, 54, .3)"}}>
-                                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                                    <TableRow>
-                                        <TableHeaderColumn>Full name</TableHeaderColumn>
-                                        <TableHeaderColumn>Email</TableHeaderColumn>
-                                        <TableHeaderColumn>Status</TableHeaderColumn>
-                                        <TableHeaderColumn style={{width: "45px"}}>Actions</TableHeaderColumn>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody displayRowCheckbox={false}>
-                                    {list}
-                                </TableBody>
-                            </Table>
-                            <p className="ListUsers">All {this.props.users.length} users are listed</p>
-                        </div>
-                    )
-                    }
-                    {/*-----*/}
+                )
+                }
+                {/*-----*/}
+                <ToastContainer/>
             </div>
         )
     }
