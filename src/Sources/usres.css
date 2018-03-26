@@ -1,5 +1,7 @@
 .usersBody {
-    /*height: 100%;*/
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 /*============================================*/
@@ -30,7 +32,10 @@
 
 /*============================================*/
 .userInfo {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
     font-family: 'Neucha', cursive;
     font-size: 20px;
 

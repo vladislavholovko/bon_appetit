@@ -83,6 +83,13 @@ class Users extends React.Component {
         toast.success('User has been updated successfully');
     }
 
+    searchUsers (){
+        let sList = this.props.users.filter((val) => {
+            let mTitle = val.fullName;
+            return mTitle.indexOf(this.state.search) !== -1;
+        });
+        return sList
+    }
 
 //-----------------------------
     dialog() {
@@ -149,7 +156,8 @@ class Users extends React.Component {
 
 //-----------------------------
     render() {
-        let list = this.props.users.map((value, index) => {
+        let sUser = this.state.search.length === 0? this.props.users:this.searchUsers();
+        let list = sUser.map((value, index) => {
             return (
                 <TableRow key={index}>
                     <TableRowColumn>{value.fullName}</TableRowColumn>
@@ -182,7 +190,7 @@ class Users extends React.Component {
                         inputStyle={{color: "#000", fontFamily: 'Neucha', fontSize: "24px"}}/>
                 </div>
                 {/*-----*/}
-                {this.props.users.length === 0 ? (
+                {list.length === 0 ? (
                     <div className="userInfo"><b>Users list is empty</b></div>
                 ) : (
                     <div className="userList">
@@ -199,7 +207,7 @@ class Users extends React.Component {
                                 {list}
                             </TableBody>
                         </Table>
-                        <p className="ListUsers">All {this.props.users.length} users are listed</p>
+                        <p className="ListUsers">All {list.length} users are listed</p>
                     </div>
                 )
                 }
