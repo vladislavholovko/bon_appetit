@@ -1,7 +1,8 @@
 export const actionType = {
     DATA_COMPANY: "DATA_COMPANY",
     DASHBOARD_INFO: "DASHBOARD_INFO",
-    USER_INFO: "USER_INFO"
+    USER_INFO: "USER_INFO",
+    REPORT_INFO: "REPORT_INFO"
 };
 
 const defaultState = {
@@ -26,7 +27,8 @@ const defaultState = {
         reportCount: 0,
         userCount: 0
     },
-    user_info: []
+    user_info: [],
+    report_info: []
 };
 
 export default function Info(state = defaultState, action) {
@@ -39,6 +41,9 @@ export default function Info(state = defaultState, action) {
             break;
         case "USER_INFO":
             return {...state, user_info: action.payload};
+            break;
+        case "REPORT_INFO":
+            return {...state, report_info: action.payload};
             break;
         default:
             return state;

@@ -6,11 +6,12 @@ import logger from 'redux-logger';
 //--------------------
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import '../Sources/App.css';
-import '../Sources/login.css'
-import '../Sources/registration.css'
-import '../Sources/panel.css'
-import '../Sources/dashboard.css'
-import '../Sources/usres.css'
+import '../Sources/login.css';
+import '../Sources/registration.css';
+import '../Sources/panel.css';
+import '../Sources/dashboard.css';
+import '../Sources/usres.css';
+import '../Sources/reports.css';
 //--------------------
 import Login from './Login_Regestration/Login';
 import Registration from "./Login_Regestration/Registration";

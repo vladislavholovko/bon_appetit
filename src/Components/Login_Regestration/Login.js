@@ -26,7 +26,8 @@ class Login extends React.Component {
         }
     };
 
-    signIn() {
+    signIn(e) {
+        e.preventDefault();
         AutReg.autorization(this.state.ownerEmail, this.state.ownerPassword)
             .then((response) => response.json())
             .then((res) => {
@@ -48,7 +49,7 @@ class Login extends React.Component {
                         <img src={require("../../Sources/logo.png")} alt=""/>
                         <h3>Bon Appetit</h3>
                     </div>
-                    <div className="loginForm">
+                    <form className="loginForm" autoComplete="off" onSubmit={this.signIn}>
                         <TextField
                             hintText="Enter your email"
                             floatingLabelText="Email"
@@ -71,9 +72,9 @@ class Login extends React.Component {
                             label="SIGN IN"
                             fullWidth={true}
                             labelStyle={styles.floatingLabelStyle}
-                            onClick={this.signIn}
+                            type="submit"
                         />
-                    </div>
+                    </form>
                     <p className="loginInfo">You don't have an account?
                         <Link className="Link" to="/registration">Sign Up</Link>
                         your company</p>

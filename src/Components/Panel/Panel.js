@@ -7,6 +7,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Dashboard from '../Dashboard/Dashboard';
 import Users from '../Users/Users';
+import Reports from '../Report/Report';
 
 class Panel extends React.Component {
     render() {
@@ -19,7 +20,7 @@ class Panel extends React.Component {
                         <Redirect exact from="/panel" to="/panel/dashboard"/>
                         <Route path="/panel/dashboard" component={Dashboard}/>
                         <Route path="/panel/users" component={Users}/>
-                        {/*<Route path="/panel/report" component={Report}/>*/}
+                        <Route path="/panel/report" component={Reports}/>
                     </Switch>
                 </div>
             </div>
