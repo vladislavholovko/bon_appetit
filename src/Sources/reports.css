@@ -12,7 +12,6 @@
     padding: 10px;
     background: rgba(54, 54, 54, .3);
     border-radius: 15px;
-
 }
 
 .reportFilter{
@@ -34,7 +33,7 @@
 
 .selectFilter{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: flex-end;
 }
 /*-------*/
@@ -43,9 +42,6 @@
     flex-direction: column;
     width: 90px;
 }
-
-
-
 
 /*============================================*/
 .reportList{
@@ -64,4 +60,49 @@
     font-family: 'Neucha', cursive;
     font-size: 20px;
 
+}
+/*============================================*/
+.dialogBody{
+    display: flex;
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    background-color:rgba(204, 204, 204, 0.4)
+}
+
+.dialogImage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-right: 1px solid rgba(204, 204, 204, 0.8);
+}
+
+.dialogImage a img {
+    width: 300px;
+    height: 195px;
+}
+
+.dialogImage a img:hover {
+    margin-bottom: 5px;
+    box-shadow: 5px 5px 5px #000;
+}
+
+.dialogReportInfo{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 10px;
+}
+
+.dialogReportInfo h4 {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    font-family: 'Neucha', cursive;
+}
+
+.dialogReportButton {
+    display: flex;
+    justify-content: flex-end;
 }

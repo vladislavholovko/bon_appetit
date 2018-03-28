@@ -6,6 +6,7 @@ import dateFormat from 'dateformat';
 //------------
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import {List, ListItem} from 'material-ui/List';
 import {
     Table,
     TableBody,
@@ -23,6 +24,7 @@ import DatePicker from 'material-ui/DatePicker';
 //------------
 import * as usReport from "../../Actions/ReportAction";
 import * as UsAct from '../../Actions/UserActions';
+import * as styles from "../Login_Regestration/style";
 
 
 class Reports extends React.Component {
@@ -52,6 +54,60 @@ class Reports extends React.Component {
     }
 
 //-----------------------------
+    handleOpen = (reportInfo) => {
+        this.setState({...reportInfo, open: true});
+    };
+
+    handleClose = () => {
+        this.setState({open: false});
+    };
+
+//-----------------------------
+    dialogInfo() {
+        return (
+            <Dialog
+                title="Report details"
+                contentStyle={{width: "700px"}}
+                modal={false}
+                open={this.state.open}
+                onRequestClose={this.handleClose}
+                autoScrollBodyContent={true}>
+                <div className="dialogBody">
+                    <div className="dialogImage">
+                        <a href={`http://web.bidon-tech.com:65059/images/${this.state.image}`}>
+                            <img style={{borderRadius:"15px"}} src={`http://web.bidon-tech.com:65059/images/${this.state.image}`} alt={this.state.createdAt}/>
+                        </a>
+                    </div>
+                    <div className="dialogReportInfo">
+                        <List>
+                            <h4>Informations</h4>
+                            <ListItem primaryText={this.userName(this.state.user_id)} secondaryText="User" leftIcon={<i className="material-icons">person</i>} />
+                            <ListItem primaryText={dateFormat(this.state.date, "yyyy-mm-dd HH:MM")} secondaryText="Was created at" leftIcon={<i className="material-icons">date_range</i>} />
+                            <ListItem primaryText={dateFormat(this.state.createdAt, "yyyy-mm-dd HH:MM")} secondaryText="Was loaded at" leftIcon={<i className="material-icons">cloud_upload</i>} />
+                            <ListItem primaryText={this.state.approved ? "Paid" : "Not paid"} secondaryText="Status of report" leftIcon={<i className="material-icons">check</i>}/>
+                        </List>
+                        <div className="dialogReportButton">
+                            <FlatButton
+                                label="CANCEL"
+                                primary={true}
+                                onClick={this.handleClose}
+                                labelStyle={styles.floatingLabelStyle}
+                            />
+                            <FlatButton
+                                label="PAID"
+                                onClick={console.log(this.state)}
+                                primary={true}
+                                keyboardFocused={true}
+                                labelStyle={styles.floatingLabelStyle}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </Dialog>
+        )
+    }
+
+//-----------------------------
     render() {
         let list = this.props.reports.map((value, index) => {
             return (
@@ -60,13 +116,14 @@ class Reports extends React.Component {
                         style={{width: "200px"}}>{dateFormat(value.date, "yyyy-mm-dd HH:MM")}</TableRowColumn>
                     <TableRowColumn>{this.userName(value.user_id)}</TableRowColumn>
                     <TableRowColumn>{value.approved ? "Paid" : "Not paid"}</TableRowColumn>
-                    <TableRowColumn style={{width: "100px"}}><FlatButton label="Details"/></TableRowColumn>
+                    <TableRowColumn style={{width: "100px"}}><FlatButton label="Details" onClick={() => this.handleOpen(value)}/></TableRowColumn>
                 </TableRow>
             )
         });
 
         return (
             <div className="reportBody">
+                {/*FILTER*/}
                 <div className="reportPanel">
                     <div className="reportFilter">
                         <div className="filterName">
@@ -80,16 +137,8 @@ class Reports extends React.Component {
                                 selectedMenuItemStyle={{width: "200px"}}
                                 floatingLabelText="Users">
                                 {this.props.users.map((value, index) => {
-                                    return (
-                                        <MenuItem
-                                            key={index}
-                                            value={value.fullName}
-                                            primaryText={value.fullName}
-                                        />
-                                    )
-                                })
-
-                                }
+                                    return (<MenuItem key={index} value={value.fullName} primaryText={value.fullName}/>)
+                                })}
                             </SelectField>
                             <DatePicker
                                 floatingLabelText="Date from"
@@ -104,23 +153,25 @@ class Reports extends React.Component {
                                 textFieldStyle={{color: "#000", fontFamily: 'Neucha', fontSize: "18px", width: "100px"}}
                                 dialogContainerStyle={{fontFamily: 'Neucha', fontSize: "18px"}}
                             />
-                            <FlatButton style={{backgroundColor:"cyan"}} label="REFRESH"/>
-                            <FlatButton label="CLEAR"/>
+                            <FlatButton backgroundColor="rgba(112, 252, 255, 0.4)" hoverColor="rgba(112, 252, 255, 0.8)" label="REFRESH"/>
+                            <FlatButton  label="CLEAR"/>
                         </div>
                     </div>
                     <div className="reportExport">
-                        <div>
-                            <FlatButton icon={<i className="material-icons">file_download</i>}  label="XLS"/>
+                        <div style={{margin:"2px 0"}}>
+                            <FlatButton  backgroundColor="rgba(142, 141, 141, 0.2)" hoverColor="rgba(142, 141, 141, 0.5)" icon={<i className="material-icons">file_download</i>} label="XLS"/>
                         </div>
-                        <div>
-                            <FlatButton icon={<i className="material-icons">file_download</i>} label="CSV"/>
+                        <div style={{margin:"2px 0"}}>
+                            <FlatButton backgroundColor="rgba(142, 141, 141, 0.2)"  hoverColor="rgba(142, 141, 141, 0.5)" icon={<i className="material-icons">file_download</i>} label="CSV"/>
                         </div>
                     </div>
                 </div>
+                {/*REPORT USERS*/}
                 {list.length === 0 ? (
                     <div className="reportInfo"><b>Reports list is empty</b></div>
                 ) : (
                     <div className="reportList">
+                        {this.dialogInfo()}
                         <Table style={{backgroundColor: "rgba(54, 54, 54, .3)"}} multiSelectable={true}>
                             <TableHeader>
                                 <TableRow>

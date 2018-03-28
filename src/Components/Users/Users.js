@@ -135,7 +135,7 @@ class Users extends React.Component {
                         value={this.state.confirmPassword}
                         onChange={(e) => this.setState({confirmPassword: e.target.value})}/>
                 </div>
-                <div className="dialogButton">
+                <div className="dialogReportButton">
                     <FlatButton
                         label="CANCEL"
                         primary={true}
