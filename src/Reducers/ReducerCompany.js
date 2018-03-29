@@ -2,7 +2,8 @@ export const actionType = {
     DATA_COMPANY: "DATA_COMPANY",
     DASHBOARD_INFO: "DASHBOARD_INFO",
     USER_INFO: "USER_INFO",
-    REPORT_INFO: "REPORT_INFO"
+    REPORT_INFO: "REPORT_INFO",
+    FILTER_LIST:"FILTER_LIST"
 };
 
 const defaultState = {
@@ -28,7 +29,8 @@ const defaultState = {
         userCount: 0
     },
     user_info: [],
-    report_info: []
+    report_info: [],
+    filter_list:[]
 };
 
 export default function Info(state = defaultState, action) {
@@ -44,6 +46,9 @@ export default function Info(state = defaultState, action) {
             break;
         case "REPORT_INFO":
             return {...state, report_info: action.payload};
+            break;
+            case "FILTER_LIST":
+            return {...state, filter_list: action.payload};
             break;
         default:
             return state;
