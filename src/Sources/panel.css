@@ -112,7 +112,7 @@
 
 /*-------*/
 
-.dialogText{
+.dialogCompanyText{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -125,10 +125,10 @@
     align-items: center;
 }
 
-.dialogTitle{
+.dialogCompanyTitle{
     background: rgb(239, 237, 237);
 }
 
-.dialogBody{
+.dialogCompanyBody{
     background: rgb(239, 237, 237);
 }

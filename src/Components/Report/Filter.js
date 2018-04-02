@@ -1,5 +1,4 @@
 import React from "react";
-import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 //------------
 import SelectField from 'material-ui/SelectField';
@@ -8,13 +7,18 @@ import DatePicker from 'material-ui/DatePicker';
 import FlatButton from 'material-ui/FlatButton';
 //------------
 import {ReportFilter} from "../../Actions/FilterAction";
+import dateFormat from "dateformat";
+
 //------------
 class Filter extends React.Component {
     constructor() {
         super();
         this.state = {
-            id: ""
+            id: "all",
+            timeFrom: {},
+            timeTo: {}
         };
+        this.searchReports = this.searchReports.bind(this)
     }
 
     componentDidMount() {
@@ -22,11 +26,57 @@ class Filter extends React.Component {
     }
 
     searchReports() {
-        if (this.state.id === "all") {
+        // 0 0 0
+        // 0 1 0
+        // 0 1 1
+        // 0 0 1
+        // 1 0 0
+        // 1 1 0
+        // 1 1 1
+        // 1 0 1
+        let timeFrom = Object.keys(this.state.timeFrom).length === 0 && this.state.timeFrom.constructor === Object ?
+            null :
+            dateFormat(this.state.timeFrom, "yyyy-mm-dd HH:MM");
+        let timeTo = Object.keys(this.state.timeTo).length === 0 && this.state.timeTo.constructor === Object ?
+            null :
+            dateFormat(this.state.timeTo, "yyyy-mm-dd HH:MM");
+
+
+        if (this.state.id === "all" && timeFrom === null && timeTo === null) {
             ReportFilter(this.props.reports);
-        } else {
+        } else if (this.state.id === "all" && timeFrom !== null && timeTo === null) {
+            let rList = this.props.reports.filter((val) => {
+                return timeFrom <= dateFormat(val.date, "yyyy-mm-dd HH:MM");
+            });
+            ReportFilter(rList);
+        } else if (this.state.id === "all" && timeFrom !== null && timeTo !== null) {
+            let rList = this.props.reports.filter((val) => {
+                return timeFrom <= dateFormat(val.date, "yyyy-mm-dd HH:MM") && timeTo >= dateFormat(val.date, "yyyy-mm-dd HH:MM");
+            });
+            ReportFilter(rList);
+        } else if (this.state.id === "all" && timeFrom === null && timeTo !== null) {
+            let rList = this.props.reports.filter((val) => {
+                return timeTo >= dateFormat(val.date, "yyyy-mm-dd HH:MM");
+            });
+            ReportFilter(rList);
+        } else if (this.state.id !== "all" && timeFrom === null && timeTo === null) {
             let rList = this.props.reports.filter((val) => {
                 return val.user_id === this.state.id;
+            });
+            ReportFilter(rList);
+        } else if (this.state.id !== "all" && timeFrom !== null && timeTo === null) {
+            let rList = this.props.reports.filter((val) => {
+                return val.user_id === this.state.id && timeFrom <= dateFormat(val.date, "yyyy-mm-dd HH:MM");
+            });
+            ReportFilter(rList);
+        } else  if (this.state.id !== "all" && timeFrom !== null && timeTo !== null) {
+            let rList = this.props.reports.filter((val) => {
+                return val.user_id === this.state.id && timeFrom <= dateFormat(val.date, "yyyy-mm-dd HH:MM") && timeTo >= dateFormat(val.date, "yyyy-mm-dd HH:MM");
+            });
+            ReportFilter(rList);
+        } else if (this.state.id !== "all" && timeFrom === null && timeTo !== null) {
+            let rList = this.props.reports.filter((val) => {
+                return val.user_id === this.state.id && timeTo >= dateFormat(val.date, "yyyy-mm-dd HH:MM");
             });
             ReportFilter(rList);
         }
@@ -52,6 +102,8 @@ class Filter extends React.Component {
                             })}
                         </SelectField>
                         <DatePicker
+                            value={this.state.timeFrom}
+                            onChange={(key, index) => this.setState({timeFrom: index})}
                             floatingLabelText="Date from"
                             mode="landscape"
                             textFieldStyle={{color: "#000", fontFamily: 'Neucha', fontSize: "18px", width: "100px"}}
@@ -59,6 +111,8 @@ class Filter extends React.Component {
 
                         />
                         <DatePicker
+                            value={this.state.timeTo}
+                            onChange={(key, index) => this.setState({timeTo: index})}
                             floatingLabelText="Date to"
                             mode="landscape"
                             textFieldStyle={{color: "#000", fontFamily: 'Neucha', fontSize: "18px", width: "100px"}}
@@ -68,7 +122,11 @@ class Filter extends React.Component {
                                     hoverColor="rgba(112, 252, 255, 0.8)"
                                     label="REFRESH"
                                     onClick={() => this.searchReports()}/>
-                        <FlatButton label="CLEAR" onClick={() => this.setState({id: "all"}, () => this.searchReports())}/>
+                        <FlatButton label="CLEAR" onClick={() => this.setState({
+                            id: "all",
+                            timeFrom: {},
+                            timeTo: {}
+                        }, () => this.searchReports())}/>
                     </div>
                 </div>
                 <div className="reportExport">

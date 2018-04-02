@@ -66,15 +66,15 @@ class Header extends React.Component {
     dialog() {
         return (
             <Dialog
-                titleClassName="dialogTitle"
-                bodyClassName="dialogBody"
+                titleClassName="dialogCompanyTitle"
+                bodyClassName="dialogCompanyBody"
                 contentStyle={{width: "350px"}}
                 title="Setting"
                 modal={false}
                 open={this.state.open}
                 onRequestClose={this.handleClose}
                 autoScrollBodyContent={true}>
-                <div className="dialogText">
+                <div className="dialogCompanyText">
                     <TextField
                         hintText="You company name"
                         floatingLabelText="Company name"

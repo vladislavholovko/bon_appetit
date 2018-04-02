@@ -29,9 +29,10 @@ class Reports extends React.Component {
         super();
         this.state = {
             open: false,
-            snack:false,
-            select:[]
+            snack: false,
+            row: []
         };
+        this.changeSelected = this.changeSelected.bind(this);
     }
 
     componentDidMount() {
@@ -61,9 +62,10 @@ class Reports extends React.Component {
     };
 
 //-----------------------------
-    changeSelected=(value)=>{
-        console.log(value)
-        // this.setState({select:value})
+    changeSelected(value) {
+        // console.log(value);
+        // this.setState({row:this.state.row.concat(value)},()=>{console.log(this.state.row)})
+
     }
 
     approvedReport(id, category_id, comment, approved) {
@@ -71,6 +73,7 @@ class Reports extends React.Component {
         usReport.EditReport(id, category_id, comment, approved);
         toast.success('Report has been updated successfully');
     }
+
 //-----------------------------
     dialogInfo() {
         return (
@@ -118,7 +121,7 @@ class Reports extends React.Component {
                                 labelStyle={styles.floatingLabelStyle}
                                 onClick={() => {
                                     this.approvedReport(this.state._id, this.state.category_id, this.state.comment, this.state.approved);
-                                    this.setState({approved:!this.state.approved});
+                                    this.setState({approved: !this.state.approved});
                                 }}
                                 disabled={!!this.state.approved}
                             />
@@ -131,7 +134,7 @@ class Reports extends React.Component {
 
 //-----------------------------
     render() {
-        let allList = this.props.reportfilter === undefined ? this.props.reports:this.props.reportfilter;
+        let allList = this.props.reportfilter === undefined ? this.props.reports : this.props.reportfilter;
         let list = allList.map((value, index) => {
             return (
                 <TableRow key={index} selectable={!value.approved}>
@@ -156,7 +159,8 @@ class Reports extends React.Component {
                 ) : (
                     <div className="reportList">
                         {this.dialogInfo()}
-                        <Table style={{backgroundColor: "rgba(54, 54, 54, .3)"}} multiSelectable onRowSelection={(value)=>this.changeSelected(value)}>
+                        <Table style={{backgroundColor: "rgba(54, 54, 54, .3)"}} multiSelectable
+                               onRowSelection={(value) => this.changeSelected(value)}>
                             <TableHeader>
                                 <TableRow>
                                     <TableHeaderColumn style={{width: "200px"}}>Date</TableHeaderColumn>
@@ -169,10 +173,16 @@ class Reports extends React.Component {
                                 {list}
                             </TableBody>
                         </Table>
+                        <div className="sumReport">
+                            <i className="material-icons">info_outline</i>
+                            <div>
+                                Summary reports price is {list.length * this.props.company.orderValue}
+                            </div>
+                        </div>
                     </div>
                 )}
                 <Snackbar
-                    bodyStyle={{backgroundColor:"rgba(54, 54, 54, .3)", textAlign:"center"}}
+                    bodyStyle={{backgroundColor: "rgba(54, 54, 54, .3)", textAlign: "center"}}
                     contentStyle={{color: "#000", fontFamily: 'Neucha', fontSize: "18px"}}
                     open={this.state.snack}
                     message="Event added to your calendar"
@@ -180,10 +190,14 @@ class Reports extends React.Component {
                     // onRequestClose={this.handleRequestClose}
                 />
                 <ToastContainer/>
-                {/*<button onClick={()=>console.log(this.state)}>1</button>*/}
             </div>
         )
     }
 }
 
-export default connect(store => ({reports: store.report_info, users: store.user_info, reportfilter: store.filter_list}))(withRouter(Reports))
+export default connect(store => ({
+    reports: store.report_info,
+    users: store.user_info,
+    reportfilter: store.filter_list,
+    company: store.data_company
+}))(withRouter(Reports))
