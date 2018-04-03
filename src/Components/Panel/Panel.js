@@ -1,6 +1,5 @@
 import React from 'react';
 import {withRouter} from 'react-router';
-import {connect} from 'react-redux';
 import {Switch, Route,Redirect} from 'react-router-dom';
 //-------------
 import Header from './Header';
@@ -28,4 +27,4 @@ class Panel extends React.Component {
     }
 }
 
-export default connect(store => ({store: store}))(withRouter(Panel))
+export default withRouter(Panel)

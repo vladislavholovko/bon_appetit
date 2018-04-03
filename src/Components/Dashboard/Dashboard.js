@@ -24,6 +24,13 @@ const data = [
 ];
 
 class Dashboard extends React.Component {
+    constructor(){
+        super();
+        this.state={
+
+        }
+    }
+
     componentDidMount() {
         DashAct.DashboardInfo();
         UsAct.UserInfo();
@@ -49,6 +56,7 @@ class Dashboard extends React.Component {
             this.props.dashboard.lastFiveReports.map((value, index) => {
                     return (
                         <ListItem
+                            // onClick={()=>{this.props.history.push('/panel/report/',value._id)}}
                             key={index}
                             primaryText={this.userName(value.user_id) + " at " + dateFormat(value.date, "yyyy-mm-dd HH:MM")}
                             rightIcon={<i className="material-icons">inbox</i>}
@@ -58,7 +66,6 @@ class Dashboard extends React.Component {
                 }
         ));
 
-        // let useSpace = this.props.store.data_company.useSpace !== undefined ? this.props.store.data_company.useSpace : 0;
         let useSpace = this.props.company.useSpace;
         let totalSpace = this.props.company.totalSpace;
         let percent = useSpace === 0 ? 0 : useSpace * 100 / totalSpace;

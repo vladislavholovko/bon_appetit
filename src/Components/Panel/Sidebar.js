@@ -1,6 +1,5 @@
 import React from 'react';
 import {withRouter} from 'react-router';
-import {connect} from 'react-redux';
 import {NavLink} from "react-router-dom";
 
 class Sidebar extends React.Component {
@@ -34,4 +33,4 @@ class Sidebar extends React.Component {
     }
 }
 
-export default (withRouter(connect(store => ({store: store}))(Sidebar)))
+export default withRouter(Sidebar)

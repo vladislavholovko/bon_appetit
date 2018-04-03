@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import DatePicker from 'material-ui/DatePicker';
 import FlatButton from 'material-ui/FlatButton';
 //------------
-import {ReportFilter} from "../../Actions/FilterAction";
+import * as usReport from "../../Actions/FilterAction";
 import dateFormat from "dateformat";
 
 //------------
@@ -22,18 +22,10 @@ class Filter extends React.Component {
     }
 
     componentDidMount() {
-        ReportFilter(this.state.reports)
+        usReport.ReportFilter()
     }
-
+//-----------------------------
     searchReports() {
-        // 0 0 0
-        // 0 1 0
-        // 0 1 1
-        // 0 0 1
-        // 1 0 0
-        // 1 1 0
-        // 1 1 1
-        // 1 0 1
         let timeFrom = Object.keys(this.state.timeFrom).length === 0 && this.state.timeFrom.constructor === Object ?
             null :
             dateFormat(this.state.timeFrom, "yyyy-mm-dd HH:MM");
@@ -43,45 +35,51 @@ class Filter extends React.Component {
 
 
         if (this.state.id === "all" && timeFrom === null && timeTo === null) {
-            ReportFilter(this.props.reports);
+            usReport.ReportFilter(this.props.reports);
         } else if (this.state.id === "all" && timeFrom !== null && timeTo === null) {
             let rList = this.props.reports.filter((val) => {
                 return timeFrom <= dateFormat(val.date, "yyyy-mm-dd HH:MM");
             });
-            ReportFilter(rList);
+            usReport.ReportFilter(rList);
         } else if (this.state.id === "all" && timeFrom !== null && timeTo !== null) {
             let rList = this.props.reports.filter((val) => {
                 return timeFrom <= dateFormat(val.date, "yyyy-mm-dd HH:MM") && timeTo >= dateFormat(val.date, "yyyy-mm-dd HH:MM");
             });
-            ReportFilter(rList);
+            usReport.ReportFilter(rList);
         } else if (this.state.id === "all" && timeFrom === null && timeTo !== null) {
             let rList = this.props.reports.filter((val) => {
                 return timeTo >= dateFormat(val.date, "yyyy-mm-dd HH:MM");
             });
-            ReportFilter(rList);
+            usReport.ReportFilter(rList);
         } else if (this.state.id !== "all" && timeFrom === null && timeTo === null) {
             let rList = this.props.reports.filter((val) => {
                 return val.user_id === this.state.id;
             });
-            ReportFilter(rList);
+            usReport.ReportFilter(rList);
         } else if (this.state.id !== "all" && timeFrom !== null && timeTo === null) {
             let rList = this.props.reports.filter((val) => {
                 return val.user_id === this.state.id && timeFrom <= dateFormat(val.date, "yyyy-mm-dd HH:MM");
             });
-            ReportFilter(rList);
+            usReport.ReportFilter(rList);
         } else  if (this.state.id !== "all" && timeFrom !== null && timeTo !== null) {
             let rList = this.props.reports.filter((val) => {
                 return val.user_id === this.state.id && timeFrom <= dateFormat(val.date, "yyyy-mm-dd HH:MM") && timeTo >= dateFormat(val.date, "yyyy-mm-dd HH:MM");
             });
-            ReportFilter(rList);
+            usReport.ReportFilter(rList);
         } else if (this.state.id !== "all" && timeFrom === null && timeTo !== null) {
             let rList = this.props.reports.filter((val) => {
                 return val.user_id === this.state.id && timeTo >= dateFormat(val.date, "yyyy-mm-dd HH:MM");
             });
-            ReportFilter(rList);
+            usReport.ReportFilter(rList);
         }
     }
 
+    clearFilter() {
+        this.setState({ id: "all", timeFrom: {}, timeTo: {} });
+        usReport.ReportFilter(undefined);
+    }
+
+//-----------------------------
     render() {
         return (
             <div className="reportPanel">
@@ -122,23 +120,23 @@ class Filter extends React.Component {
                                     hoverColor="rgba(112, 252, 255, 0.8)"
                                     label="REFRESH"
                                     onClick={() => this.searchReports()}/>
-                        <FlatButton label="CLEAR" onClick={() => this.setState({
-                            id: "all",
-                            timeFrom: {},
-                            timeTo: {}
-                        }, () => this.searchReports())}/>
+                        <FlatButton label="CLEAR"
+                                    onClick={() => this.clearFilter()}/>
                     </div>
                 </div>
                 <div className="reportExport">
                     <div style={{margin: "2px 0"}}>
                         <FlatButton backgroundColor="rgba(142, 141, 141, 0.2)"
                                     hoverColor="rgba(142, 141, 141, 0.5)"
-                                    icon={<i className="material-icons">file_download</i>} label="XLS"/>
+                                    icon={<i className="material-icons">file_download</i>} label="XLS"
+                                    onClick={()=> usReport.saveXls()}
+                        />
                     </div>
                     <div style={{margin: "2px 0"}}>
                         <FlatButton backgroundColor="rgba(142, 141, 141, 0.2)"
                                     hoverColor="rgba(142, 141, 141, 0.5)"
-                                    icon={<i className="material-icons">file_download</i>} label="CSV"/>
+                                    icon={<i className="material-icons">file_download</i>} label="CSV"
+                        />
                     </div>
                 </div>
             </div>

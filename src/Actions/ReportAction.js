@@ -16,7 +16,11 @@ export async function usersReports() {
     let data = await response.json();
     store.dispatch({
         type: actionType.REPORT_INFO,
-        payload: data.message
+        payload: data.message,
+    });
+    store.dispatch({
+        type: actionType.FILTER_LIST,
+        payload: data.message,
     })
 }
 

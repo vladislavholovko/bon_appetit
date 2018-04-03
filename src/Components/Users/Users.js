@@ -31,10 +31,10 @@ class Users extends React.Component {
             open: false,
             edit: false,
             search:"",
-            fullName: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
+            fullName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
         };
         this.companyUsers = this.companyUsers.bind(this);
     }

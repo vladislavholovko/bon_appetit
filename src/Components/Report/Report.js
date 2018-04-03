@@ -3,9 +3,9 @@ import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {ToastContainer, toast} from 'react-toastify';
 import dateFormat from 'dateformat';
+import {Switch, Route} from 'react-router-dom';
 //------------
 import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
 import {List, ListItem} from 'material-ui/List';
 import {
     Table,
@@ -23,21 +23,31 @@ import * as usReport from "../../Actions/ReportAction";
 import * as UsAct from '../../Actions/UserActions';
 import * as styles from "../Login_Regestration/style";
 
-
 class Reports extends React.Component {
     constructor() {
         super();
         this.state = {
             open: false,
             snack: false,
-            row: []
+            rows: []
         };
-        this.changeSelected = this.changeSelected.bind(this);
+        this.handleOpen = this.handleOpen.bind(this);
     }
 
     componentDidMount() {
         usReport.usersReports();
         UsAct.UserInfo();
+        // if (this.props.location.state !== undefined) {
+        //     let id = this.props.location.state;
+        //     if (this.props.reports === undefined){
+        //         console.log("T_T")
+        //     } else {
+        //         let date = this.props.reports.find((value => {
+        //             return value._id === id
+        //         }));
+        //         this.handleOpen(date)
+        //     }
+        // }
     }
 
 //-----------------------------
@@ -58,21 +68,30 @@ class Reports extends React.Component {
     };
 
     handleClose = () => {
+        // this.props.history.push('/panel/report');
         this.setState({open: false});
     };
 
 //-----------------------------
-    changeSelected(value) {
-        // console.log(value);
-        // this.setState({row:this.state.row.concat(value)},()=>{console.log(this.state.row)})
-
-    }
+//     SelectedRow(selected){
+//         if(selected === 'all'){
+//             this.setState({rows:this.props.reports.map(value => value._id)})
+//         }else if(selected === 'none' || selected.length === 0){
+//             this.setState({rows:[]})
+//         }else {
+//             let reports = this.props.reports.filter((value, index) => selected.indexOf(index) > -1);
+//             this.setState({rows: reports.map(value => value._id)})
+//         }
+//     }
 
     approvedReport(id, category_id, comment, approved) {
         approved = !approved;
         usReport.EditReport(id, category_id, comment, approved);
         toast.success('Report has been updated successfully');
     }
+
+
+
 
 //-----------------------------
     dialogInfo() {
@@ -134,10 +153,11 @@ class Reports extends React.Component {
 
 //-----------------------------
     render() {
-        let allList = this.props.reportfilter === undefined ? this.props.reports : this.props.reportfilter;
+        let allList = this.props.reportFilter === undefined ? this.props.reports : this.props.reportFilter;
         let list = allList.map((value, index) => {
             return (
                 <TableRow key={index} selectable={!value.approved}>
+                {/*<TableRow key={index} selectable={!value.approved}  selected={this.state.rows.indexOf(value._id) > -1}>*/}
                     <TableRowColumn
                         style={{width: "200px"}}>{dateFormat(value.date, "yyyy-mm-dd HH:MM")}</TableRowColumn>
                     <TableRowColumn>{this.userName(value.user_id)}</TableRowColumn>
@@ -158,9 +178,10 @@ class Reports extends React.Component {
                     <div className="reportInfo"><b>Reports list is empty</b></div>
                 ) : (
                     <div className="reportList">
-                        {this.dialogInfo()}
+                        {/*{this.dialogInfo()}*/}
                         <Table style={{backgroundColor: "rgba(54, 54, 54, .3)"}} multiSelectable
-                               onRowSelection={(value) => this.changeSelected(value)}>
+                               // onRowSelection={this.SelectedRow.bind(this)}
+                        >
                             <TableHeader>
                                 <TableRow>
                                     <TableHeaderColumn style={{width: "200px"}}>Date</TableHeaderColumn>
@@ -190,6 +211,7 @@ class Reports extends React.Component {
                     // onRequestClose={this.handleRequestClose}
                 />
                 <ToastContainer/>
+                <button onClick={()=>console.log(this.state)}>11</button>
             </div>
         )
     }
@@ -198,6 +220,6 @@ class Reports extends React.Component {
 export default connect(store => ({
     reports: store.report_info,
     users: store.user_info,
-    reportfilter: store.filter_list,
+    reportFilter: store.filter_list,
     company: store.data_company
 }))(withRouter(Reports))

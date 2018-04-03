@@ -1,6 +1,5 @@
 import React from 'react';
 import {withRouter} from 'react-router';
-import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 //-----------------
 import TextField from 'material-ui/TextField';
@@ -36,7 +35,6 @@ class Login extends React.Component {
                 } else {
                     localStorage.setItem('token',res.message.token);
                     this.props.history.push('/panel');
-                    toast.success("Success");
                 }
             });
     }
@@ -84,4 +82,4 @@ class Login extends React.Component {
         )
     }
 }
-export default connect(store => ({store: store}))(withRouter(Login))
+export default withRouter(Login)

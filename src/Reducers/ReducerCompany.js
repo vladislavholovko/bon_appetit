@@ -37,19 +37,14 @@ export default function Info(state = defaultState, action) {
     switch (action.type) {
         case "DATA_COMPANY":
             return {...state, data_company: action.payload};
-            break;
         case "DASHBOARD_INFO":
             return {...state, dashboard_info: action.payload};
-            break;
         case "USER_INFO":
             return {...state, user_info: action.payload};
-            break;
         case "REPORT_INFO":
             return {...state, report_info: action.payload};
-            break;
             case "FILTER_LIST":
             return {...state, filter_list: action.payload};
-            break;
         default:
             return state;
     }
