@@ -38,6 +38,14 @@ class Reports extends React.Component {
     componentDidMount() {
         usReport.usersReports();
         UsAct.UserInfo();
+        if (this.props.location.state !== undefined) {
+            let id = this.props.location.state;
+            let reports = this.props.reports.find(value => {
+                return value._id === id
+            });
+            this.setState({...reports, open: true});
+
+        }
     }
 
 //-----------------------------
@@ -59,6 +67,8 @@ class Reports extends React.Component {
 
     handleClose = () => {
         this.setState({open: false});
+        this.props.history.push('/panel/report/')
+
     };
 
 //-----------------------------

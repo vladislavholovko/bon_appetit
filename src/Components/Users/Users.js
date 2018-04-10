@@ -68,7 +68,10 @@ class Users extends React.Component {
             //------------
             this.state.edit ?
                 UsAct.EditUsers(this.state._id, this.state.fullName, this.state.email, this.state.password, this.state.active)
-                    .then(()=>this.setState(defaultValue)):
+                    .then(()=>{
+                        toast.success('User has been change successfully');
+                        this.setState(defaultValue);
+                    }):
                 UsAct.NewUsers(this.state.fullName, this.state.email, this.state.password)
                     .then((response) => response.json())
                     .then((res) => {

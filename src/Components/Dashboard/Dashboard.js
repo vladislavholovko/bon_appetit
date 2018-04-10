@@ -57,7 +57,7 @@ class Dashboard extends React.Component {
                         return (
                             <ListItem
                                 onClick={() => {
-                                    this.props.history.push('/panel/report')
+                                    this.props.history.push('/panel/report/',value._id)
                                 }}
                                 key={index}
                                 primaryText={this.userName(value.user_id) + " at " + dateFormat(value.date, "yyyy-mm-dd HH:MM")}
