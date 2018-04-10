@@ -11,6 +11,7 @@ import Avatar from 'material-ui/Avatar';
 //------------
 import * as DashAct from '../../Actions/DashboardAction';
 import * as UsAct from '../../Actions/UserActions';
+import {host} from '../../Actions/host';
 //------------
 
 const data = [
@@ -24,11 +25,9 @@ const data = [
 ];
 
 class Dashboard extends React.Component {
-    constructor(){
+    constructor() {
         super();
-        this.state={
-
-        }
+        this.state = {}
     }
 
     componentDidMount() {
@@ -52,19 +51,25 @@ class Dashboard extends React.Component {
             <div className="emptyList">
                 <p>Reports list is empty</p>
             </div>
-        ): (
+        ) : (
             this.props.dashboard.lastFiveReports.map((value, index) => {
-                    return (
-                        <ListItem
-                            onClick={()=>{this.props.history.push('/panel/report')}}
-                            key={index}
-                            primaryText={this.userName(value.user_id) + " at " + dateFormat(value.date, "yyyy-mm-dd HH:MM")}
-                            rightIcon={<i className="material-icons">inbox</i>}
-                            leftAvatar={<Avatar src={`http://web.bidon-tech.com:65059/images/${value.image}`}/>}
-                        />
-                    )
+                    if (value !== null) {
+                        return (
+                            <ListItem
+                                onClick={() => {
+                                    this.props.history.push('/panel/report')
+                                }}
+                                key={index}
+                                primaryText={this.userName(value.user_id) + " at " + dateFormat(value.date, "yyyy-mm-dd HH:MM")}
+                                rightIcon={<i className="material-icons">inbox</i>}
+                                leftAvatar={<Avatar src={`${host}images/${value.image}`}/>}
+                            />
+                        )
+                    } else {
+                        return null
+                    }
                 }
-        ));
+            ));
 
         let useSpace = this.props.company.useSpace;
         let totalSpace = this.props.company.totalSpace;
@@ -74,7 +79,7 @@ class Dashboard extends React.Component {
             <div className="dashboardBody">
                 {/*DIAGRAM*/}
                 <div className="dashboardHead">
-                    <div className="dashboardChild" >
+                    <div className="dashboardChild">
                         <h3>Overview</h3>
                         <AreaChart width={800} height={200} data={data}>
                             <defs>
@@ -148,7 +153,8 @@ class Dashboard extends React.Component {
                             <div className="textInfo">
                                 <i className="material-icons">info</i>
                                 <div className="useInfo">
-                                    &nbsp; Get &nbsp;<strong> 10Gb </strong>&nbsp; disk space for only &nbsp;<strong> $1.99 </strong>
+                                    &nbsp; Get &nbsp;<strong> 10Gb </strong>&nbsp; disk space for only &nbsp;
+                                    <strong> $1.99 </strong>
                                 </div>
                                 <div className="useInfo">
                                     Use &nbsp; <a href=""> this form</a>&nbsp;  to contact us
@@ -162,4 +168,8 @@ class Dashboard extends React.Component {
     }
 }
 
-export default connect(store => ({company: store.data_company,dashboard: store.dashboard_info,users: store.user_info}))(withRouter(Dashboard))
+export default connect(store => ({
+    company: store.data_company,
+    dashboard: store.dashboard_info,
+    users: store.user_info
+}))(withRouter(Dashboard))

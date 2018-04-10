@@ -16,6 +16,7 @@ export async function UserInfo() {
         type: actionType.USER_INFO,
         payload: data.message
     })
+
 }
 
 export async function NewUsers(fullName, email, password) {
@@ -34,12 +35,7 @@ export async function NewUsers(fullName, email, password) {
                 password: password,
             })
         });
-    let data = await response.json();
-    if (data.error) {
-        console.log(data.message.toString());
-    } else {
-        UserInfo();
-    }
+    return response;
 }
 
 export async function EditUsers(_id,fullName,email,password,active){

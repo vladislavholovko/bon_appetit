@@ -3,7 +3,6 @@ import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {ToastContainer, toast} from 'react-toastify';
 import dateFormat from 'dateformat';
-import {Switch, Route} from 'react-router-dom';
 //------------
 import FlatButton from 'material-ui/FlatButton';
 import {List, ListItem} from 'material-ui/List';
@@ -22,6 +21,8 @@ import Filter from './Filter';
 import * as usReport from "../../Actions/ReportAction";
 import * as UsAct from '../../Actions/UserActions';
 import * as styles from "../Login_Regestration/style";
+import {host} from '../../Actions/host';
+
 
 class Reports extends React.Component {
     constructor() {
@@ -83,9 +84,9 @@ class Reports extends React.Component {
                 autoScrollBodyContent={true}>
                 <div className="dialogBody">
                     <div className="dialogImage">
-                        <a href={`http://web.bidon-tech.com:65059/images/${this.state.image}`}>
+                        <a href={`${host}images/${this.state.image}`}>
                             <img style={{borderRadius: "15px"}}
-                                 src={`http://web.bidon-tech.com:65059/images/${this.state.image}`}
+                                 src={`${host}images/${this.state.image}`}
                                  alt={this.state.createdAt}/>
                         </a>
                     </div>

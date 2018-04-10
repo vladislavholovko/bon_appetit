@@ -33,11 +33,13 @@ class Login extends React.Component {
                 if (res.error) {
                     toast.error(res.message);
                 } else {
+                    toast("Success");
                     localStorage.setItem('token',res.message.token);
                     this.props.history.push('/panel');
                 }
             });
     }
+
 
     render() {
         return (

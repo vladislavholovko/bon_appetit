@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Switch, Route,Redirect} from 'react-router-dom';
 //-------------
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -9,7 +9,6 @@ import Users from '../Users/Users';
 import Reports from '../Report/Report';
 
 class Panel extends React.Component {
-
     render() {
         return (
             <div className="panelBody">

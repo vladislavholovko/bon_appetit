@@ -22,7 +22,7 @@ import * as styles from "../Login_Regestration/style";
 
 //------------
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const defaultValue = {open: false, edit: false, search:"", fullName: '', email: '', password: '', confirmPassword: ''};
+const defaultValue = {open: false, edit: false, search: "", fullName: '', email: '', password: '', confirmPassword: ''};
 
 class Users extends React.Component {
     constructor() {
@@ -30,7 +30,7 @@ class Users extends React.Component {
         this.state = {
             open: false,
             edit: false,
-            search:"",
+            search: "",
             fullName: "",
             email: "",
             password: "",
@@ -68,9 +68,17 @@ class Users extends React.Component {
             //------------
             this.state.edit ?
                 UsAct.EditUsers(this.state._id, this.state.fullName, this.state.email, this.state.password, this.state.active) :
-                UsAct.NewUsers(this.state.fullName, this.state.email, this.state.password);
-            toast.success('User has been created successfully');
-            this.setState(defaultValue);
+                UsAct.NewUsers(this.state.fullName, this.state.email, this.state.password)
+                    .then((response) => response.json())
+                    .then((res) => {
+                if (res.error) {
+                    toast.error(res.message);
+                } else {
+                    toast.success('User has been created successfully');
+                    UsAct.UserInfo();
+                    this.setState(defaultValue);
+                }
+            });
         }
         catch (e) {
             toast.error(e.message);
@@ -83,7 +91,7 @@ class Users extends React.Component {
         toast.success('User has been updated successfully');
     }
 
-    searchUsers (){
+    searchUsers() {
         let sList = this.props.users.filter((val) => {
             let mTitle = val.fullName;
             return mTitle.indexOf(this.state.search) !== -1;
@@ -156,7 +164,7 @@ class Users extends React.Component {
 
 //-----------------------------
     render() {
-        let sUser = this.state.search.length === 0? this.props.users:this.searchUsers();
+        let sUser = this.state.search.length === 0 ? this.props.users : this.searchUsers();
         let list = sUser.map((value, index) => {
             return (
                 <TableRow key={index}>
