@@ -187,7 +187,6 @@ class Reports extends React.Component {
                     autoHideDuration={4000}
                 />
                 <ToastContainer/>
-                <button onClick={()=>console.log(this.state)}>11</button>
             </div>
         )
     }
