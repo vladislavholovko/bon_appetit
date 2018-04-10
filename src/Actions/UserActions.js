@@ -1,7 +1,6 @@
 import {store} from "../Components/App";
 import {actionType} from "../Reducers/ReducerCompany";
-
-const host = "http://web.bidon-tech.com:65059/";
+import {host} from './host';
 
 export async function UserInfo() {
     let token = localStorage.getItem('token');

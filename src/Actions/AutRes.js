@@ -1,4 +1,4 @@
-const host = "http://web.bidon-tech.com:65059/";
+import {host} from './host';
 
 export async function registration(information) {
     let response = await fetch(host+"company",

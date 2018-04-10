@@ -37,17 +37,6 @@ class Reports extends React.Component {
     componentDidMount() {
         usReport.usersReports();
         UsAct.UserInfo();
-        // if (this.props.location.state !== undefined) {
-        //     let id = this.props.location.state;
-        //     if (this.props.reports === undefined){
-        //         console.log("T_T")
-        //     } else {
-        //         let date = this.props.reports.find((value => {
-        //             return value._id === id
-        //         }));
-        //         this.handleOpen(date)
-        //     }
-        // }
     }
 
 //-----------------------------
@@ -68,30 +57,19 @@ class Reports extends React.Component {
     };
 
     handleClose = () => {
-        // this.props.history.push('/panel/report');
         this.setState({open: false});
     };
 
 //-----------------------------
-//     SelectedRow(selected){
-//         if(selected === 'all'){
-//             this.setState({rows:this.props.reports.map(value => value._id)})
-//         }else if(selected === 'none' || selected.length === 0){
-//             this.setState({rows:[]})
-//         }else {
-//             let reports = this.props.reports.filter((value, index) => selected.indexOf(index) > -1);
-//             this.setState({rows: reports.map(value => value._id)})
-//         }
-//     }
+    selectedRow(selected){
+        console.log(selected);
+    }
 
     approvedReport(id, category_id, comment, approved) {
         approved = !approved;
         usReport.EditReport(id, category_id, comment, approved);
         toast.success('Report has been updated successfully');
     }
-
-
-
 
 //-----------------------------
     dialogInfo() {
@@ -157,7 +135,6 @@ class Reports extends React.Component {
         let list = allList.map((value, index) => {
             return (
                 <TableRow key={index} selectable={!value.approved}>
-                {/*<TableRow key={index} selectable={!value.approved}  selected={this.state.rows.indexOf(value._id) > -1}>*/}
                     <TableRowColumn
                         style={{width: "200px"}}>{dateFormat(value.date, "yyyy-mm-dd HH:MM")}</TableRowColumn>
                     <TableRowColumn>{this.userName(value.user_id)}</TableRowColumn>
@@ -178,9 +155,9 @@ class Reports extends React.Component {
                     <div className="reportInfo"><b>Reports list is empty</b></div>
                 ) : (
                     <div className="reportList">
-                        {/*{this.dialogInfo()}*/}
+                        {this.dialogInfo()}
                         <Table style={{backgroundColor: "rgba(54, 54, 54, .3)"}} multiSelectable
-                               // onRowSelection={this.SelectedRow.bind(this)}
+                               onRowSelection={(selected)=>this.selectedRow(selected)}
                         >
                             <TableHeader>
                                 <TableRow>
@@ -206,9 +183,8 @@ class Reports extends React.Component {
                     bodyStyle={{backgroundColor: "rgba(54, 54, 54, .3)", textAlign: "center"}}
                     contentStyle={{color: "#000", fontFamily: 'Neucha', fontSize: "18px"}}
                     open={this.state.snack}
-                    message="Event added to your calendar"
+                    message=""
                     autoHideDuration={4000}
-                    // onRequestClose={this.handleRequestClose}
                 />
                 <ToastContainer/>
                 <button onClick={()=>console.log(this.state)}>11</button>

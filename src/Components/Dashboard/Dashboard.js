@@ -56,7 +56,7 @@ class Dashboard extends React.Component {
             this.props.dashboard.lastFiveReports.map((value, index) => {
                     return (
                         <ListItem
-                            // onClick={()=>{this.props.history.push('/panel/report/',value._id)}}
+                            onClick={()=>{this.props.history.push('/panel/report')}}
                             key={index}
                             primaryText={this.userName(value.user_id) + " at " + dateFormat(value.date, "yyyy-mm-dd HH:MM")}
                             rightIcon={<i className="material-icons">inbox</i>}
