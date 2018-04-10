@@ -63,11 +63,12 @@ class Users extends React.Component {
         try {
             if (this.state.fullName.length < 3) throw new Error('Full name must be at least 3 characters');
             if (!emailRegex.test(this.state.email)) throw new Error('Email is invalid');
-            if (this.state.password.length < 6) throw new Error('Password must be at least 6 characters');
+            if (this.state.password.length >=1 && this.state.password.length < 6)throw new Error('Password must be at least 6 characters');
             if (this.state.password !== this.state.confirmPassword) throw new Error('Passwords is invalid');
             //------------
             this.state.edit ?
-                UsAct.EditUsers(this.state._id, this.state.fullName, this.state.email, this.state.password, this.state.active) :
+                UsAct.EditUsers(this.state._id, this.state.fullName, this.state.email, this.state.password, this.state.active)
+                    .then(()=>this.setState(defaultValue)):
                 UsAct.NewUsers(this.state.fullName, this.state.email, this.state.password)
                     .then((response) => response.json())
                     .then((res) => {
