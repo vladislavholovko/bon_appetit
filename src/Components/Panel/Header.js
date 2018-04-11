@@ -151,7 +151,7 @@ class Header extends React.Component {
                         labelStyle={styles.floatingLabelStyle}
                     />
                 </div>
-                <ToastContainer/>
+
             </Dialog>
         )
     }
@@ -169,6 +169,7 @@ class Header extends React.Component {
                         <i className="material-icons">exit_to_app</i>
                     </li>
                 </ul>
+                <ToastContainer/>
             </div>
 
         )
