@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from 'react-redux';
 import XlsExport from 'xlsexport';
+import dateFormat from "dateformat";
 //------------
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -8,7 +9,7 @@ import DatePicker from 'material-ui/DatePicker';
 import FlatButton from 'material-ui/FlatButton';
 //------------
 import * as usReport from "../../Actions/FilterAction";
-import dateFormat from "dateformat";
+import {getExcel} from "../../Actions/Export";
 
 //------------
 class Filter extends React.Component {
@@ -122,9 +123,7 @@ class Filter extends React.Component {
         } else if (typeFormat === "csv") {
             xls.exportToCSV('reports.csv');
         }
-
     }
-
 //-----------------------------
     render() {
         return (
@@ -183,6 +182,13 @@ class Filter extends React.Component {
                                     hoverColor="rgba(142, 141, 141, 0.5)"
                                     icon={<i className="material-icons">file_download</i>} label="CSV"
                                     onClick={() => this.saveExcel("csv")}
+                        />
+                    </div>
+                    <div style={{margin: "2px 0"}}>
+                        <FlatButton backgroundColor="rgba(142, 141, 141, 0.2)"
+                                    hoverColor="rgba(142, 141, 141, 0.5)"
+                                    icon={<i className="material-icons">file_download</i>} label="=_="
+                                    onClick={() => getExcel()}
                         />
                     </div>
                 </div>

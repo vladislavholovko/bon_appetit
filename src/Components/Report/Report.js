@@ -44,7 +44,6 @@ class Reports extends React.Component {
                 return value._id === id
             });
             this.setState({...reports, open: true});
-
         }
     }
 
@@ -68,16 +67,36 @@ class Reports extends React.Component {
     handleClose = () => {
         this.setState({open: false});
         this.props.history.push('/panel/report/')
-
     };
 
 //-----------------------------
-    selectedRow(selected){
-        console.log(selected);
+    async selectedRow(selected){
+        if(selected === 'all'){
+            this.setState({rows:this.props.reports.map(value => value._id)})
+        }else if(selected === 'none' || selected.length === 0){
+            this.setState({rows:[]})
+        }else {
+            let reports = this.props.reports.filter((value, index) => selected.indexOf(index) > -1);
+            console.log(reports);
+            this.setState({rows: reports.map(value => value._id)})
+        }
+    }
+
+    allPaid (){
+        let rows = this.state.rows;
+        rows.map(value => {
+            let mas = this.props.reports.filter(val=>value===val._id);
+            console.log(mas);
+            mas.map(v => {
+                // usReport.EditReport(v._id, v.category_id, v.comment, !v.approved);
+                usReport.EditReport(v._id, v.category_id, v.comment, true);
+            })
+        })
     }
 
     approvedReport(id, category_id, comment, approved) {
-        approved = !approved;
+        // approved = !approved;
+        approved = true;
         usReport.EditReport(id, category_id, comment, approved);
         toast.success('Report has been updated successfully');
     }
@@ -145,7 +164,7 @@ class Reports extends React.Component {
         let allList = this.props.reportFilter === undefined ? this.props.reports : this.props.reportFilter;
         let list = allList.map((value, index) => {
             return (
-                <TableRow key={index} selectable={!value.approved}>
+                <TableRow key={index} selected={this.state.rows.indexOf(value._id) > -1} selectable={!value.approved} >
                     <TableRowColumn
                         style={{width: "200px"}}>{dateFormat(value.date, "yyyy-mm-dd HH:MM")}</TableRowColumn>
                     <TableRowColumn>{this.userName(value.user_id)}</TableRowColumn>
@@ -168,7 +187,7 @@ class Reports extends React.Component {
                     <div className="reportList">
                         {this.dialogInfo()}
                         <Table style={{backgroundColor: "rgba(54, 54, 54, .3)"}} multiSelectable
-                               onRowSelection={(selected)=>this.selectedRow(selected)}
+                               onRowSelection={this.selectedRow.bind(this)}
                         >
                             <TableHeader>
                                 <TableRow>
@@ -179,6 +198,7 @@ class Reports extends React.Component {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
+                            {/*<TableBody deselectOnClickaway={false}>*/}
                                 {list}
                             </TableBody>
                         </Table>
@@ -193,9 +213,11 @@ class Reports extends React.Component {
                 <Snackbar
                     bodyStyle={{backgroundColor: "rgba(54, 54, 54, .3)", textAlign: "center"}}
                     contentStyle={{color: "#000", fontFamily: 'Neucha', fontSize: "18px"}}
-                    open={this.state.snack}
-                    message=""
+                    open={this.state.rows.length > 0}
+                    action="Paid"
+                    message={this.state.rows.length + " reports where selected for the amount of " + this.state.rows.length * this.props.company.orderValue}
                     autoHideDuration={4000}
+                    onActionClick={() =>this.allPaid()}
                 />
                 <ToastContainer/>
             </div>
