@@ -185,11 +185,11 @@ class Filter extends React.Component {
                         />
                     </div>
                     <div style={{margin: "2px 0"}}>
-                        <FlatButton backgroundColor="rgba(142, 141, 141, 0.2)"
-                                    hoverColor="rgba(142, 141, 141, 0.5)"
-                                    icon={<i className="material-icons">file_download</i>} label="=_="
-                                    onClick={() => getExcel()}
-                        />
+                        {/*<FlatButton backgroundColor="rgba(142, 141, 141, 0.2)"*/}
+                                    {/*hoverColor="rgba(142, 141, 141, 0.5)"*/}
+                                    {/*icon={<i className="material-icons">file_download</i>} label="=_="*/}
+                                    {/*onClick={() => getExcel()}*/}
+                        {/*/>*/}
                     </div>
                 </div>
             </div>

@@ -32,7 +32,6 @@ class Reports extends React.Component {
             snack: false,
             rows: []
         };
-        this.handleOpen = this.handleOpen.bind(this);
     }
 
     componentDidMount() {
@@ -60,8 +59,9 @@ class Reports extends React.Component {
     }
 
 //-----------------------------
-    handleOpen = (reportInfo) => {
-        this.setState({...reportInfo, open: true});
+    handleOpen = (reportInfo, e = null) => {
+        if (e) e.stopPropagation();
+        this.setState({...reportInfo, rows: [], open: true});
     };
 
     handleClose = () => {
@@ -70,11 +70,9 @@ class Reports extends React.Component {
     };
 
 //-----------------------------
-    async selectedRow(selected){
+    selectedRow(selected){
         if(selected === 'all'){
             this.setState({rows:this.props.reports.map(value => value._id)})
-        }else if(selected === 'none' || selected.length === 0){
-            this.setState({rows:[]})
         }else {
             let reports = this.props.reports.filter((value, index) => selected.indexOf(index) > -1);
             console.log(reports);
@@ -86,12 +84,12 @@ class Reports extends React.Component {
         let rows = this.state.rows;
         rows.map(value => {
             let mas = this.props.reports.filter(val=>value===val._id);
-            console.log(mas);
             mas.map(v => {
                 // usReport.EditReport(v._id, v.category_id, v.comment, !v.approved);
                 usReport.EditReport(v._id, v.category_id, v.comment, true);
             })
-        })
+        });
+        this.setState({rows:[]})
     }
 
     approvedReport(id, category_id, comment, approved) {
@@ -170,7 +168,7 @@ class Reports extends React.Component {
                     <TableRowColumn>{this.userName(value.user_id)}</TableRowColumn>
                     <TableRowColumn>{value.approved ? "Paid" : "Not paid"}</TableRowColumn>
                     <TableRowColumn style={{width: "100px"}}>
-                        <FlatButton label="Details" onClick={() => this.handleOpen(value)}/>
+                        <FlatButton label="Details" onClick={this.handleOpen.bind(this, value)}/>
                     </TableRowColumn>
                 </TableRow>
             )
@@ -187,7 +185,7 @@ class Reports extends React.Component {
                     <div className="reportList">
                         {this.dialogInfo()}
                         <Table style={{backgroundColor: "rgba(54, 54, 54, .3)"}} multiSelectable
-                               onRowSelection={this.selectedRow.bind(this)}
+                               onRowSelection={(val)=>this.selectedRow(val)}
                         >
                             <TableHeader>
                                 <TableRow>
@@ -197,8 +195,7 @@ class Reports extends React.Component {
                                     <TableHeaderColumn style={{width: "80px"}}>Details</TableHeaderColumn>
                                 </TableRow>
                             </TableHeader>
-                            <TableBody>
-                            {/*<TableBody deselectOnClickaway={false}>*/}
+                            <TableBody deselectOnClickaway={false}>
                                 {list}
                             </TableBody>
                         </Table>
