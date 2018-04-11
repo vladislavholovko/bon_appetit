@@ -9,7 +9,7 @@ import DatePicker from 'material-ui/DatePicker';
 import FlatButton from 'material-ui/FlatButton';
 //------------
 import * as usReport from "../../Actions/FilterAction";
-import {getExcel} from "../../Actions/Export";
+import * as ReportFilter from "../../Actions/Export";
 
 //------------
 class Filter extends React.Component {
@@ -83,47 +83,53 @@ class Filter extends React.Component {
     }
 
 //-----------------------------
-    userName(user_id) {
-        let user = this.props.users.find(value => {
-            return value._id === user_id
-        });
-        if (user === undefined) {
-            return null;
-        } else {
-            return user.fullName;
-        }
+//     userName(user_id) {
+//         let user = this.props.users.find(value => {
+//             return value._id === user_id
+//         });
+//         if (user === undefined) {
+//             return null;
+//         } else {
+//             return user.fullName;
+//         }
+//     }
+//
+//     userEmail(user_id) {
+//         let user = this.props.users.find(value => {
+//             return value._id === user_id
+//         });
+//         if (user === undefined) {
+//             return null;
+//         } else {
+//             return user.email;
+//         }
+//     }
+
+    // saveExcel(typeFormat) {
+    //     let allList = this.props.reportFilter === undefined ? this.props.reports : this.props.reportFilter;
+    //     let reports = [["Name", "Email", "ID", "Approved"]];
+    //
+    //     for (let i = 0; i < allList.length; i++) {
+    //         let name = allList.map(value => this.userName(value.user_id));
+    //         let email = allList.map(value => this.userEmail(value.user_id));
+    //         let reportId = allList.map(value => value._id);
+    //         let reportApproved = allList.map(value => value.approved);
+    //         reports.push([name[i], email[i], reportId[i], reportApproved[i]])
+    //     }
+    //     let xls = new XlsExport(reports, "Reports");
+    //
+    //     if (typeFormat === "xls") {
+    //         xls.exportToXLS('reports.xls');
+    //     } else if (typeFormat === "csv") {
+    //         xls.exportToCSV('reports.csv');
+    //     }
+    // }
+
+
+    async getExcel(type){
+        await ReportFilter.gExcel(type);
     }
 
-    userEmail(user_id) {
-        let user = this.props.users.find(value => {
-            return value._id === user_id
-        });
-        if (user === undefined) {
-            return null;
-        } else {
-            return user.email;
-        }
-    }
-
-    saveExcel(typeFormat) {
-        let allList = this.props.reportFilter === undefined ? this.props.reports : this.props.reportFilter;
-        let reports = [["Name", "Email", "ID", "Approved"]];
-
-        for (let i = 0; i < allList.length; i++) {
-            let name = allList.map(value => this.userName(value.user_id));
-            let email = allList.map(value => this.userEmail(value.user_id));
-            let reportId = allList.map(value => value._id);
-            let reportApproved = allList.map(value => value.approved);
-            reports.push([name[i], email[i], reportId[i], reportApproved[i]])
-        }
-        let xls = new XlsExport(reports, "Reports");
-
-        if (typeFormat === "xls") {
-            xls.exportToXLS('reports.xls');
-        } else if (typeFormat === "csv") {
-            xls.exportToCSV('reports.csv');
-        }
-    }
 //-----------------------------
     render() {
         return (
@@ -174,22 +180,17 @@ class Filter extends React.Component {
                         <FlatButton backgroundColor="rgba(142, 141, 141, 0.2)"
                                     hoverColor="rgba(142, 141, 141, 0.5)"
                                     icon={<i className="material-icons">file_download</i>} label="XLS"
-                                    onClick={() => this.saveExcel("xls")}
+                                    // onClick={() => this.saveExcel("xls")}
+                                    onClick={this.getExcel.bind(this, 'xls')}
                         />
                     </div>
                     <div style={{margin: "2px 0"}}>
                         <FlatButton backgroundColor="rgba(142, 141, 141, 0.2)"
                                     hoverColor="rgba(142, 141, 141, 0.5)"
                                     icon={<i className="material-icons">file_download</i>} label="CSV"
-                                    onClick={() => this.saveExcel("csv")}
+                                    // onClick={() => this.saveExcel("csv")}
+                                    onClick={this.getExcel.bind(this, 'csv')}
                         />
-                    </div>
-                    <div style={{margin: "2px 0"}}>
-                        {/*<FlatButton backgroundColor="rgba(142, 141, 141, 0.2)"*/}
-                                    {/*hoverColor="rgba(142, 141, 141, 0.5)"*/}
-                                    {/*icon={<i className="material-icons">file_download</i>} label="=_="*/}
-                                    {/*onClick={() => getExcel()}*/}
-                        {/*/>*/}
                     </div>
                 </div>
             </div>

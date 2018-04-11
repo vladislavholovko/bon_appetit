@@ -3,7 +3,7 @@ export const actionType = {
     DASHBOARD_INFO: "DASHBOARD_INFO",
     USER_INFO: "USER_INFO",
     REPORT_INFO: "REPORT_INFO",
-    FILTER_LIST:"FILTER_LIST"
+    FILTER_LIST:"FILTER_LIST",
 };
 
 const defaultState = {
@@ -30,7 +30,7 @@ const defaultState = {
     },
     user_info: [],
     report_info: [],
-    filter_list:[]
+    filter_list:[],
 };
 
 export default function Info(state = defaultState, action) {
@@ -43,7 +43,7 @@ export default function Info(state = defaultState, action) {
             return {...state, user_info: action.payload};
         case "REPORT_INFO":
             return {...state, report_info: action.payload};
-            case "FILTER_LIST":
+        case "FILTER_LIST":
             return {...state, filter_list: action.payload};
         default:
             return state;
